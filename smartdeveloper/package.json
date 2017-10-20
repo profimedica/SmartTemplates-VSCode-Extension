@@ -12,6 +12,7 @@
     ],
     "activationEvents": [
         "onCommand:extension.SmartDeveloper",
+		"onView:templateManager",
 		"onView:nodeDependencies",
 		"onView:ftpExplorer",
 		"onView:jsonOutline"
@@ -28,12 +29,25 @@
 				{
 					"command": "nodeDependencies.addEntry",
 					"when": "view == nodeDependencies"
+				},
+				{
+					"command": "templateManager.refreshEntry",
+					"when": "view == templateManager",
+					"group": "navigation"
+				},
+				{
+					"command": "templateManager.addEntry",
+					"when": "view == templateManager"
 				}
 			],
 			"view/item/context": [
 				{
 					"command": "nodeDependencies.deleteEntry",
 					"when": "view == nodeDependencies && viewItem == dependency"
+				},
+				{
+					"command": "templateManager.deleteEntry",
+					"when": "view == templateManager && viewItem == template"
 				}
             ],
             "editor/title": [{
@@ -49,6 +63,10 @@
 				"title": "Add"
 			},
 			{
+				"command": "nodeDependencies.deleteEntry",
+				"title": "Delete"
+			},
+			{
 				"command": "nodeDependencies.refreshEntry",
 				"title": "Refresh",
 				"icon": {
@@ -57,8 +75,20 @@
 				}
 			},
 			{
-				"command": "nodeDependencies.deleteEntry",
+				"command": "templateManager.addEntry",
+				"title": "Add"
+			},
+			{
+				"command": "templateManager.deleteEntry",
 				"title": "Delete"
+			},
+			{
+				"command": "templateManager.refreshEntry",
+				"title": "Refresh",
+				"icon": {
+					"light": "resources/light/refresh.svg",
+					"dark": "resources/dark/refresh.svg"
+				}
 			},
 			{
 				"command": "openFtpResource",
@@ -72,17 +102,8 @@
         "views": {
             "explorer": [
 				{
-					"id": "nodeDependencies",
-					"name": "Node Dependencies"
-				},
-				{
-					"id": "jsonOutline",
-					"name": "Json Outline",
-					"when": "resourceLangId == 'json'"
-				},
-				{
-					"id": "ftpExplorer",
-					"name": "FTP Explorer"
+					"id": "templateManager",
+					"name": "My Templates"
 				}
 			]
         }

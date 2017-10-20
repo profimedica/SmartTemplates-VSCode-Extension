@@ -63,3 +63,19 @@ Added features X, Y, and Z.
 * [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
 
 **Enjoy!**
+
+
+/*,
+				{
+					"id": "nodeDependencies",
+					"name": "Node Dependencies"
+				},
+				{
+					"id": "jsonOutline",
+					"name": "Json Outline",
+					"when": "resourceLangId == 'json'"
+				},
+				{
+					"id": "ftpExplorer",
+					"name": "FTP Explorer"
+				}*/
