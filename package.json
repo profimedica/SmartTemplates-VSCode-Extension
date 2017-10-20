@@ -1,0 +1,19 @@
+{
+  "name": "smart_developer",
+  "version": "1.0.0",
+  "description": "https://github.com/profimedica/Templater/wiki/Ajuro-Template-Processor",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/profimedica/VisualStudioCodeExtension.git"
+  },
+  "author": "Cumpanasu Florin <start_florin@yahoo.com> (aju.ro)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/profimedica/VisualStudioCodeExtension/issues"
+  },
+  "homepage": "https://github.com/profimedica/VisualStudioCodeExtension#readme"
+}
