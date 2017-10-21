@@ -1,17 +1,17 @@
 {
-	"name": "smartdeveloper",
-	"displayName": "SmartDeveloper",
+	"name": "smarttemplateprocessor",
+	"displayName": "Smart Template Processor",
 	"description": "https://github.com/profimedica/Templater/wiki/Ajuro-Template-Processor",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"publisher": "profimedica",
 	"engines": {
 		"vscode": "^1.16.0"
 	},
 	"categories": [
-		"Other"
+		"Snippets"
 	],
 	"activationEvents": [
-		"onCommand:extension.SmartDeveloper",
+		"onCommand:extension.SmartTemplateProcessor",
 		"onView:templateManager",
 		"onView:jsonOutline"
 	],
@@ -66,8 +66,8 @@
 				"title": "Open Template File"
 			},
 			{
-				"command": "extension.SmartDeveloper",
-				"title": "SmartDeveloper"
+				"command": "extension.SmartTemplateProcessor",
+				"title": "Smart Template Processor"
 			}
 		],
 		"views": {

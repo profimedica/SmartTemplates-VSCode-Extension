@@ -1,81 +1,46 @@
-# smartdeveloper README
+# Smart Template Processor
 
-This is the README for your extension "smartdeveloper". After writing up a brief description, we recommend including the following sections.
+Not functional extension at this time.
+
+Smart Template Processor extension helps you code faster by using the power of Ajuro Template Processor (AJP) directly from your IDE.
+While the WEB version of AJP can not apply the code into files, this extension has this advantage.
+Good templates can increase your productivity, saving the time you usualy spend on writing support code.
+
+Read more on the github AJP page:
+https://github.com/profimedica/Templater/wiki/Ajuro-Template-Processor
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+v.0.0.1
+Use local templates from C:\\AJP-Templates
 
-For example if there is an image subfolder under your extension project workspace:
+Planned for v.0.0.2
+Use template processor from: https://profimedica.github.io/Templater/Advanced/index.html
 
-\!\[feature X\]\(images/feature-x.png\)
+Planned for v.0.0.3
+Write code directly in your files.
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+> Tip: The current release is not fully implemented.
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+Folder C:\\AJP-Templates is needed.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+None
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+Not fully impleented
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
+### 0.0.1
+Created a templates view. 
+On disk, each templates has it's own folder. Inside the folder there are multiple versions of the same template.
+On the view, only the folders are displayed. Selecting a node opns the most recent template for edit.
 
 -----------------------------------------------------------------------------------------------------------
 
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on OSX or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on OSX or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (OSX) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
 **Enjoy!**
-
-
-/*,
-				{
-					"id": "nodeDependencies",
-					"name": "Node Dependencies"
-				},
-				{
-					"id": "jsonOutline",
-					"name": "Json Outline",
-					"when": "resourceLangId == 'json'"
-				},
-				{
-					"id": "ftpExplorer",
-					"name": "FTP Explorer"
-				}*/

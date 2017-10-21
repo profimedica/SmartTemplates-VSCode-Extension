@@ -7,7 +7,7 @@ export class TemplateManagerProvider implements vscode.TreeDataProvider<AjuroTem
 
 	private _onDidChangeTreeData: vscode.EventEmitter<AjuroTemplate | undefined> = new vscode.EventEmitter<AjuroTemplate | undefined>();
 	readonly onDidChangeTreeData: vscode.Event<AjuroTemplate | undefined> = this._onDidChangeTreeData.event;
-	private File = new AjuroTemplate('C:', 'Templates', true);
+	private File = new AjuroTemplate('C:', 'AJP-Templates', true);
 
 	constructor(private context: vscode.ExtensionContext) {
 		console.log('Searching for templates ...');
@@ -16,7 +16,7 @@ export class TemplateManagerProvider implements vscode.TreeDataProvider<AjuroTem
 			this.File.Children = this.getTemplates(this.File.FilePath + '\\' + this.File.FileName)
 			console.log('Found: ' + this.File.Children.length + ' templates.');
 		} else {
-			vscode.window.showInformationMessage('Templates forder was not found: "' + this.File.FilePath + '\\' + this.File.FileName + '". Visit the project page to download templates: '+ LatestTemplatesAssress);
+			vscode.window.showInformationMessage('Templates folder was not found: "' + this.File.FilePath + '\\' + this.File.FileName + '". Visit the project page to download templates: '+ LatestTemplatesAssress);
 		}
 	}
 
