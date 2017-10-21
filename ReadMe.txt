@@ -11,7 +11,7 @@ Code location:
 	C:\PRO\ANG\material\VisualStudioCodeExtenson\VisualStudioCodeExtension
 
 profimedica publisher:
-	jgcbvpfbfnarbufklpjk2gfi2nklmeubr4vpfgvnlflcr6asva2a
+	SAVED
 
 Git
 	https://github.com/profimedica/VisualStudioCodeExtension.git
@@ -34,7 +34,7 @@ Publishing tool:
 	npm install -g vsce
 	vsce publish
 
-× NODE_PATH matches the npm root
+Ã— NODE_PATH matches the npm root
 npm global root value is not in your NODE_PATH
 
 [Info]
