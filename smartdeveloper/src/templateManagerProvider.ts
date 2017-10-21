@@ -1,42 +1,75 @@
+import { AjuroTemplate } from './AjuroTemplate';
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 
-export class TemplateManagerProvider implements vscode.TreeDataProvider<Template> {
+export class TemplateManagerProvider implements vscode.TreeDataProvider<AjuroTemplate> {
 
-	private _onDidChangeTreeData: vscode.EventEmitter<Template | undefined> = new vscode.EventEmitter<Template | undefined>();
-	readonly onDidChangeTreeData: vscode.Event<Template | undefined> = this._onDidChangeTreeData.event;
+	private _onDidChangeTreeData: vscode.EventEmitter<AjuroTemplate | undefined> = new vscode.EventEmitter<AjuroTemplate | undefined>();
+	readonly onDidChangeTreeData: vscode.Event<AjuroTemplate | undefined> = this._onDidChangeTreeData.event;
+	private File = new AjuroTemplate('C:', 'Templates', true);
 
-	constructor(private workspaceRoot: string) {
+	constructor(private context: vscode.ExtensionContext) {
+		console.log('Searching for templates ...');
+		const LatestTemplatesAssress = 'https://github.com/profimedica/Templater/wiki/Ajuro-Template-Processor';
+		if (this.pathExists(this.File.FilePath + '\\' + this.File.FileName)) {
+			this.File.Children = this.getTemplates(this.File.FilePath + '\\' + this.File.FileName)
+			console.log('Found: ' + this.File.Children.length + ' templates.');
+		} else {
+			vscode.window.showInformationMessage('Templates forder was not found: "' + this.File.FilePath + '\\' + this.File.FileName + '". Visit the project page to download templates: '+ LatestTemplatesAssress);
+		}
+	}
+
+	FindLastVersion(node: AjuroTemplate): string {
+		var fs = fs || require('fs');
+		let fileName;
+		let files = fs.readdirSync(node.FilePath + '\\' + node.FileName);
+		fileName =  (<Array<string>>files).sort((a,b) => 0 - (a > b ? 1 : -1))[0];
+		if(fs.statSync(node.FilePath + '\\' + node.FileName + '\\' + fileName).isDirectory())
+		{
+			fileName = null;
+		}
+		return (fileName);
 	}
 
 	refresh(): void {
 		this._onDidChangeTreeData.fire();
 	}
 
-	getTreeItem(element: Template): vscode.TreeItem {
+	/*getTreeItem(element: AjuroTemplate): vscode.TreeItem {
 		return element;
+	}*/
+	getTreeItem(node: AjuroTemplate): vscode.TreeItem {
+		if(node) {
+			let nodeFileName = node.FileName;
+			if(!node.IsDir && node.FileName.indexOf('.') > 0)
+			{
+				// nodeFileName = node.FileName.substring(0, node.FileName.lastIndexOf('.'))
+			}
+			let treeItem: vscode.TreeItem = new vscode.TreeItem(nodeFileName, node.Children.length > 0 ? vscode.TreeItemCollapsibleState.Expanded : vscode.TreeItemCollapsibleState.None);
+			treeItem.command = {
+				command: 'openTemplateFile',
+				title: '',
+				arguments: [node]
+			};
+			return treeItem;
+		}
+	}
+	
+	private _getChildren(node: AjuroTemplate) {
+		if (node) {
+			return Promise.resolve(this.getTemplates(node.FilePath + '\\' + node.FileName));
+		} else {
+			return Promise.resolve(this.File ? this.File.Children : []);
+		}
 	}
 
-	getChildren(element?: Template): Thenable<Template[]> {
-		if (!this.workspaceRoot) {
-			vscode.window.showInformationMessage('No dependency in empty workspace');
-			return Promise.resolve([]);
+	getChildren(node?: AjuroTemplate): Thenable<AjuroTemplate[]> {
+		if (node) {
+			return Promise.resolve(this.getTemplates(node.FilePath + '\\' + node.FileName));
+		} else {
+			return Promise.resolve(this.File ? this.File.Children : []);
 		}
-
-		return new Promise(resolve => {
-			const TemplatesFolder = 'c:\\Templates\\';
-			const LatestTemplatesAssress = 'https://github.com/profimedica/Templater/wiki/Ajuro-Template-Processor';
-			if (this.pathExists(TemplatesFolder)) {
-				let filelist = [];
-				filelist = this.getTemplates(TemplatesFolder)
-				vscode.window.showInformationMessage('Found: ' + filelist.length);
-				resolve(filelist);
-			} else {
-				vscode.window.showInformationMessage('Templates forder was not found: ' + TemplatesFolder + '. Visit the project page to download templates: '+ LatestTemplatesAssress);
-				resolve([]);
-			}
-		});
 	}
 
 	/**
@@ -47,15 +80,13 @@ export class TemplateManagerProvider implements vscode.TreeDataProvider<Template
 			files = fs.readdirSync(dir);
 		const templates = new Array();
 		files.forEach(file => {
-		  if (fs.statSync(dir + file).isDirectory()) {
-			  /*if(this != undefined)
-			  {
-				filelist.push( this.getTemplates(dir + file + '\\', filelist));
-			  }*/
-			  templates.push(new Template(file, vscode.TreeItemCollapsibleState.Expanded, null));
+		  if (fs.statSync(dir + '\\' + file).isDirectory()) {
+			var template = new AjuroTemplate(dir, file, true);
+				template.Children = this.getTemplates(dir + '\\' + file);
+				templates.push(template);
 		  }
 		  else {
-			templates.push(new Template(file, vscode.TreeItemCollapsibleState.None, null));
+			// templates.push(new AjuroTemplate(dir, file, false));
 		  }
 		});
 		return templates;
@@ -70,23 +101,4 @@ export class TemplateManagerProvider implements vscode.TreeDataProvider<Template
 
 		return true;
 	}
-}
-
-class Template extends vscode.TreeItem {
-
-	constructor(
-		public readonly label: string,
-		public readonly collapsibleState: vscode.TreeItemCollapsibleState,
-		public readonly command?: vscode.Command
-	) {
-		super(label, collapsibleState);
-	}
-
-	iconPath = {
-		light: path.join(__filename, '..', '..', '..', 'resources', 'light', 'dependency.svg'),
-		dark: path.join(__filename, '..', '..', '..', 'resources', 'dark', 'dependency.svg')
-	};
-
-	contextValue = 'dependency';
-
 }

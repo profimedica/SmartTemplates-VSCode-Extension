@@ -44,7 +44,8 @@ export class FtpModel {
 			});
 
 			client.on('error', error => {
-				e('Error while connecting: ' + error.message);
+				console.log('Error while connecting: ' + error.message);
+				c(client);
 			})
 
 			client.connect({
@@ -153,8 +154,8 @@ export class FtpTreeDataProvider implements TreeDataProvider<FtpNode>, TextDocum
 	public getChildren(element?: FtpNode): FtpNode[] | Thenable<FtpNode[]> {
 		if (!element) {
 			if (!this.model) {			
-				this.model = new FtpModel('ftp.aju.ro', 'public@aju.ro', 'Mirabela1');
-				// this.model = new FtpModel('mirror.switch.ch', 'anonymous', 'anonymous@anonymous.de');
+				// this.model = new FtpModel('ftp.aju.ro', 'public@aju.ro', 'Mirabela1');
+				this.model = new FtpModel('mirror.switch.ch', 'anonymous', 'anonymous@anonymous.de');
 			}
 
 			return this.model.roots;

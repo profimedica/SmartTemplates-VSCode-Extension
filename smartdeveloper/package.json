@@ -1,35 +1,24 @@
 {
-    "name": "smartdeveloper",
-    "displayName": "SmartDeveloper",
-    "description": "https://github.com/profimedica/Templater/wiki/Ajuro-Template-Processor",
-    "version": "0.0.1",
-    "publisher": "profimedica",
-    "engines": {
-        "vscode": "^1.16.0"
-    },
-    "categories": [
-        "Other"
-    ],
-    "activationEvents": [
-        "onCommand:extension.SmartDeveloper",
+	"name": "smartdeveloper",
+	"displayName": "SmartDeveloper",
+	"description": "https://github.com/profimedica/Templater/wiki/Ajuro-Template-Processor",
+	"version": "0.0.1",
+	"publisher": "profimedica",
+	"engines": {
+		"vscode": "^1.16.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onCommand:extension.SmartDeveloper",
 		"onView:templateManager",
-		"onView:nodeDependencies",
-		"onView:ftpExplorer",
 		"onView:jsonOutline"
-    ],
-    "main": "./out/extension",
+	],
+	"main": "./out/extension",
 	"contributes": {
-        "menus": {
-            "view/title": [
-				{
-					"command": "nodeDependencies.refreshEntry",
-					"when": "view == nodeDependencies",
-					"group": "navigation"
-				},
-				{
-					"command": "nodeDependencies.addEntry",
-					"when": "view == nodeDependencies"
-				},
+		"menus": {
+			"view/title": [
 				{
 					"command": "templateManager.refreshEntry",
 					"when": "view == templateManager",
@@ -42,38 +31,20 @@
 			],
 			"view/item/context": [
 				{
-					"command": "nodeDependencies.deleteEntry",
-					"when": "view == nodeDependencies && viewItem == dependency"
-				},
-				{
 					"command": "templateManager.deleteEntry",
 					"when": "view == templateManager && viewItem == template"
 				}
-            ],
-            "editor/title": [{
-                "when": "resourceLangId == markdown",
-                "command": "markdown.showPreview",
-                "alt": "markdown.showPreviewToSide",
-                "group": "navigation"
-            }]
-        },
-        "commands": [
-			{
-				"command": "nodeDependencies.addEntry",
-				"title": "Add"
-			},
-			{
-				"command": "nodeDependencies.deleteEntry",
-				"title": "Delete"
-			},
-			{
-				"command": "nodeDependencies.refreshEntry",
-				"title": "Refresh",
-				"icon": {
-					"light": "resources/light/refresh.svg",
-					"dark": "resources/dark/refresh.svg"
+			],
+			"editor/title": [
+				{
+					"when": "resourceLangId == markdown",
+					"command": "markdown.showPreview",
+					"alt": "markdown.showPreviewToSide",
+					"group": "navigation"
 				}
-			},
+			]
+		},
+		"commands": [
 			{
 				"command": "templateManager.addEntry",
 				"title": "Add"
@@ -91,34 +62,41 @@
 				}
 			},
 			{
-				"command": "openFtpResource",
-				"title": "Open FTP Resource"
-            },
-            {
-                "command": "extension.SmartDeveloper",
-                "title": "SmartDeveloper"
-            }
-        ],
-        "views": {
-            "explorer": [
+				"command": "openTemplateFile",
+				"title": "Open Template File"
+			},
+			{
+				"command": "extension.SmartDeveloper",
+				"title": "SmartDeveloper"
+			}
+		],
+		"views": {
+			"explorer": [
 				{
 					"id": "templateManager",
 					"name": "My Templates"
+				},
+				{
+					"id": "jsonOutline",
+					"name": "Json Outline",
+					"when": "resourceLangId == 'json'"
 				}
 			]
-        }
-    },
-    "devDependencies": {
-        "typescript": "^2.5.3",
-        "vscode": "^1.1.5",
-        "@types/node": "^7.0.43",
-        "@types/mocha": "^2.2.42"
-    },
+		}
+	},
+	"devDependencies": {
+		"typescript": "^2.5.3",
+		"vscode": "^1.1.5",
+		"@types/node": "^7.0.43",
+		"@types/mocha": "^2.2.42"
+	},
 	"scripts": {
-        "vscode:prepublish": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+		"prepublishOnly": "tsc -p ./",
+		"build": "tsc -p ./",
+		"prepare": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"test": "npm run compile && node ./node_modules/vscode/bin/test"
 	},
 	"dependencies": {
 		"jsonc-parser": "^0.4.2",
