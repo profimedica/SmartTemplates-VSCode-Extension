@@ -57,7 +57,7 @@ export class TemplateManagerProvider implements vscode.TreeDataProvider<AjuroTem
 	/*getTreeItem(element: AjuroTemplate): vscode.TreeItem {
 		return element;
 	}*/
-	getTreeItem(node: AjuroTemplate): vscode.TreeItem {
+	getTreeItem(node: AjuroTemplate): vscode.TreeItem {		
 		if(node) {
 			let nodeFileName = node.FileName;
 			if(!node.IsDir && node.FileName.indexOf('.') > 0)

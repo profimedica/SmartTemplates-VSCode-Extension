@@ -2,7 +2,7 @@
 	"name": "smarttemplateprocessor",
 	"displayName": "Smart Template Processor",
 	"description": "https://github.com/profimedica/Templater/wiki/Ajuro-Template-Processor",
-	"version": "0.0.3",
+	"version": "0.0.12",
 	"publisher": "profimedica",
 	"engines": {
 		"vscode": "^1.16.0"
@@ -147,7 +147,6 @@
 		"test": "npm run compile && node ./node_modules/vscode/bin/test"
 	},
 	"dependencies": {
-		"jsonc-parser": "^0.4.2",
-		"ftp": "^0.3.10"
+		"jsonc-parser": "^0.4.2"
 	}
 }

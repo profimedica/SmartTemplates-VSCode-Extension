@@ -4,7 +4,6 @@
 import vscode = require( 'vscode' );
 import path = require( 'path' );
 import fs = require( 'fs' );
-import minimatch = require( 'minimatch' );
 import { TextDocument } from 'vscode';
 
 export class TemplateProcessor {
@@ -57,8 +56,8 @@ export class TemplateProcessor {
             vscode.commands.registerCommand( 'templateProcessor.disable', this.disable ),
             vscode.commands.registerCommand( 'templateProcessor.toggle', this.toggle ),
             vscode.commands.registerCommand( 'templateProcessor.processTemplate', (document: TextDocument) => {
-				let fileExtension = '';
-                if(document.fileName.lastIndexOf('.') > -1)
+                let fileExtension = '';
+                if(document != undefined && document.fileName != undefined && document.fileName.lastIndexOf('.') > -1)
                 {
                     fileExtension = document.fileName.substring(document.fileName.lastIndexOf('.'));
                 }
@@ -99,37 +98,6 @@ export class TemplateProcessor {
 
     deactivate()
     {
-    }
-
-    private checkTask( document, taskName )
-    {
-        this.availableTasks[ taskName ].map( function( glob )
-        {
-            // get file relative in the project
-            let filePath = vscode.workspace.asRelativePath( document.fileName );
-            if( minimatch( filePath, glob, { matchBase: true } ) )
-            {
-                if( this.availableTasks.indexOf( taskName ) === -1 )
-                {
-                    vscode.window.showErrorMessage( "[Trigger Task on Save] Task not found: " + taskName );
-                    return false;
-                }
-                else
-                {
-                    if( vscode.workspace.getConfiguration( 'templateProcessor' ).restart )
-                    {
-                        vscode.commands.executeCommand( 'workbench.action.tasks.terminate' ).then( function()
-                        {
-                            vscode.commands.executeCommand( 'workbench.action.tasks.runTask', taskName );
-                        } );
-                    }
-                    else
-                    {
-                        vscode.commands.executeCommand( 'workbench.action.tasks.runTask', taskName );
-                    }
-                }
-            }
-        } );
     }
 
     activate(context: vscode.ExtensionContext)
