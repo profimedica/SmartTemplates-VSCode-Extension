@@ -2,7 +2,7 @@
 	"name": "smarttemplateprocessor",
 	"displayName": "Smart Template Processor",
 	"description": "https://github.com/profimedica/Templater/wiki/Ajuro-Template-Processor",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"publisher": "profimedica",
 	"engines": {
 		"vscode": "^1.16.0"
@@ -13,7 +13,8 @@
 	"activationEvents": [
 		"onCommand:extension.SmartTemplateProcessor",
 		"onView:templateManager",
-		"onView:jsonOutline"
+		"onView:jsonOutline",
+        "*"
 	],
 	"main": "./out/extension",
 	"contributes": {
@@ -46,6 +47,18 @@
 		},
 		"commands": [
 			{
+                "command": "templateProcessor.enable",
+                "title": "Parse On Save: Enable"
+            },
+            {
+                "command": "templateProcessor.disable",
+                "title": "Parse On Save: Disable"
+            },
+            {
+                "command": "templateProcessor.toggle",
+                "title": "Parse On Save: Toggle"
+			},
+			{
 				"command": "templateManager.addEntry",
 				"title": "Add"
 			},
@@ -66,10 +79,45 @@
 				"title": "Open Template File"
 			},
 			{
+				"command": "processTemplate",
+				"title": "Process template"
+			},
+			{
 				"command": "extension.SmartTemplateProcessor",
 				"title": "Smart Template Processor"
 			}
 		],
+		"configuration": {
+            "type": "object",
+            "title": "Smart Template Processor configuration",
+            "properties": {
+                "TemplateManagerProvider.templateFilesRootDirectory": {
+                    "type": "string",
+                    "description": "Root directory for all template files. Ignore the drive letter C:\\ because it will be added internally.",
+                    "default": "AJP-Templates"
+                },
+                "templateManager.templateFilesExtension": {
+                    "type": "string",
+                    "description": "Template files extension",
+                    "default": "ajp"
+                },
+                "templateProcessor.on": {
+                    "type": "boolean",
+                    "description": "Automatically trigger template processor on save",
+                    "default": true
+                },
+                "templateProcessor.restart": {
+                    "type": "boolean",
+                    "description": "Kill the task first if it is already running",
+                    "default": true
+                },
+                "templateProcessor.tasks": {
+                    "type": "object",
+                    "description": "Tasks to associate with file globs, e.g. \"build\": [\"**/*.h\",\"**/*.cpp\"]",
+                    "default": {}
+                }
+            }
+		},
 		"views": {
 			"explorer": [
 				{

@@ -1,0 +1,94 @@
+================= Vars begin
+
+{
+	"MyAppSpace":"Miap",
+	"MyAppClass":"MyModel",
+	"Translates":
+	{
+		"Generated" :
+		{
+			"form_width" : "100",
+			"form_begin" : "<form>",
+			"form_end"   : "</form>",
+			"table_begin" : "<table>",
+			"table_end"   : "</table>",
+			"my_style"   : "<style>.generic_title{color: red} .label_style{text-align: right; width: 150px; color: blue; background-color: #FFD; border: 1px solid gray }</style>",
+			"closed_div" : "</div>",
+			"open_title" : "<div class='generic_title'>",
+
+			"input_text_control" : "<tr><td class='label_style'>@{label}@: </td><td class='input_element'><input type='text' name='first_name' value='@{value}@' /></td></tr>",
+			"input_password_control" : "<tr><td class='label_style'>@{label}@: </td><td class='input_element'><input type='password' name='first_name' value='@{value}@' /></td></tr>",
+			"input_multiline_control" : "<tr><td class='label_style'>@{label}@: </td><td class='input_element'><textarea rows='5' cols='50' name='description'>@{value}@</textarea></td></tr>",
+			"input_checkbox_control" : "<tr><td class='label_style'>@{label}@: </td><td class='input_element'><input type='checkbox' name='group1' value='on'> Maths</td></tr>",
+			"input_radiobox_control" : "<tr><td class='label_style'>@{label}@: </td><td class='input_element'><input type='radio' name='group1' value='on'> Maths</td></tr>",
+			"input_option_control" : "<tr><td class='label_style'>@{label}@: </td><td class='input_element'><select name='dropdown' value='@{value}@'><option value='Two'>Two</option><option value='input_option_control'>input_option_control</option></select></td></tr>",
+			"input_upload_control" : "<tr><td class='label_style'>@{label}@: </td><td class='input_element'><input type='file' name='fileupload' accept='image/*' /></td></tr>",
+			"input_hidden_control" : "<tr><td class='label_style'>@{label}@: </td><td class='input_element'><input type='hidden' name='hidden_info' /></td></tr>",
+			"input_button_control" : "<tr><td class='label_style'>@{label}@: </td><td class='input_element'><input type='button' name='hidden_info' value='@{value}@' /></td></tr>"
+}
+	},	
+	"Tables" : 
+	[
+		{
+			"Name" : "Field Types", 
+			"Fields" : [
+				{ "value" : "input_text_control",	"type" : "input_text_control",		"label" : "One line text" },
+			 	{ "value" : "input_password_control",	"type" : "input_password_control",	"label" : "Masked text"},
+				{ "value" : "input_multiline_control",	"type" : "input_multiline_control",	"label" : "Multiline text"},
+				{ "value" : "input_checkbox_control",	"type" : "input_checkbox_control",	"label" : "Check Boxes"},
+				{ "value" : "input_radiobox_control",	"type" : "input_radiobox_control",	"label" : "Radio buttons"},
+				{ "value" : "input_option_control",	"type" : "input_option_control",	"label" : "Options"},
+				{ "value" : "input_upload_control",	"type" : "input_upload_control",	"label" : "Upload File"},
+				{ "value" : "input_hidden_control",	"type" : "input_hidden_control",	"label" : "Hidden field"},
+				{ "value" : "input_button_control",	"type" : "input_button_control",	"label" : "Button"}
+			]
+		}
+	]
+}
+================= Vars end
+@``Generated``@``my_style``@
+@``Generated``@``form_begin``@
+@``Generated``@``table_begin``@
+==============================================================================
+Variables are not sent at this point
+ 
+@``Generated``@``open_title``@Text Input Controls@``Generated``@``closed_div``@
+@``Generated``@``input_text_control``@
+@``Generated``@``input_password_control``@
+@``Generated``@``input_multiline_control``@
+
+@``Generated``@``open_title``@Checkboxes Controls@``Generated``@``closed_div``@
+@``Generated``@``input_checkbox_control``@
+@``Generated``@``input_checkbox_control``@
+
+@``Generated``@``open_title``@Radio Box Controls@``Generated``@``closed_div``@
+@``Generated``@``input_radiobox_control``@
+@``Generated``@``input_radiobox_control``@
+
+@``Generated``@``open_title``@Select Box Controls@``Generated``@``closed_div``@
+@``Generated``@``input_option_control``@
+
+@``Generated``@``open_title``@File Select boxes@``Generated``@``closed_div``@
+@``Generated``@``input_upload_control``@
+
+
+@``Generated``@``open_title``@Hidden Controls@``Generated``@``closed_div``@
+@``Generated``@``open_title``@Clickable Buttons@``Generated``@``closed_div``@
+@``Generated``@``input_button_control``@
+@``Generated``@``open_title``@Submit and Reset Button@``Generated``@``closed_div``@
+
+@``Generated``@``table_end``@
+@``Generated``@``form_end``@
+==============================================================================
+Variables are AVAILABLE at this point
+
+
+@``Generated``@``form_begin``@
+@``Generated``@``table_begin``@
+!===========Tables===========@{Name}@
+!===========Fields===========@``Generated``@``@{type}@``@
+===========!
+===========!
+@``Generated``@``table_end``@
+@``Generated``@``form_end``@
+ 

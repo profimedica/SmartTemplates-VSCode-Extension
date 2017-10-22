@@ -11,14 +11,16 @@ https://github.com/profimedica/Templater/wiki/Ajuro-Template-Processor
 
 ## Features
 
+v.0.0.3
+Implemented Template Processor in Typescript
+v.0.0.2
+Add configurations
 v.0.0.1
 Use local templates from C:\\AJP-Templates
 
-Planned for v.0.0.2
-Use template processor from: https://profimedica.github.io/Templater/Advanced/index.html
-
-Planned for v.0.0.3
-Write code directly in your files.
+Planned for v.0.0.4
+Automatic download templates.
+Use markers to inject code.
 
 > Tip: The current release is not fully implemented.
 

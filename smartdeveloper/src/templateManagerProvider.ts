@@ -7,10 +7,28 @@ export class TemplateManagerProvider implements vscode.TreeDataProvider<AjuroTem
 
 	private _onDidChangeTreeData: vscode.EventEmitter<AjuroTemplate | undefined> = new vscode.EventEmitter<AjuroTemplate | undefined>();
 	readonly onDidChangeTreeData: vscode.Event<AjuroTemplate | undefined> = this._onDidChangeTreeData.event;
-	private File = new AjuroTemplate('C:', 'AJP-Templates', true);
+	private File: AjuroTemplate;
 
+	// Register commands
 	constructor(private context: vscode.ExtensionContext) {
-		console.log('Searching for templates ...');
+		console.log('AJP - Registring template manager commands ...');
+		this.File = new AjuroTemplate('C:', vscode.workspace.getConfiguration('TemplateManagerProvider').templateFilesRootDirectory, true);
+		context.subscriptions.push(
+			vscode.commands.registerCommand('templateManager.refreshEntry', () => this.refresh()),
+			vscode.commands.registerCommand('templateManager.addEntry', node => vscode.window.showInformationMessage('Successfully called add entry')),
+			vscode.commands.registerCommand('templateManager.deleteEntry', node => vscode.window.showInformationMessage('Successfully called delete entry')),
+			vscode.commands.registerCommand('openTemplateFile', (node: AjuroTemplate) => {
+				const lastVersion = this.FindLastVersion(node);
+				if(lastVersion != null)
+				{
+					vscode.workspace.openTextDocument(node.FilePath + '\\' + node.FileName + '\\' + lastVersion).then(document => {
+						vscode.window.showTextDocument(document);
+					});
+				}
+			})
+		);
+
+		console.log('AJP - Searching for templates ...');
 		const LatestTemplatesAssress = 'https://github.com/profimedica/Templater/wiki/Ajuro-Template-Processor';
 		if (this.pathExists(this.File.FilePath + '\\' + this.File.FileName)) {
 			this.File.Children = this.getTemplates(this.File.FilePath + '\\' + this.File.FileName)

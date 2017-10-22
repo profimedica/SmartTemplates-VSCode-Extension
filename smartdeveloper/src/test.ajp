@@ -1,0 +1,512 @@
+================= Vars begin
+
+{
+	"MyAppSpace":"Miap",
+	"MyAppClass":"MyModel",
+	"Translates":
+	{
+		"Generated" :
+		{
+			"form_width" : "100",
+			"form_begin" : "<form>",
+			"form_end"   : "</form>"
+}
+	},	
+	"Tables" : 
+	[
+		{
+			"Name" : "BI_ActivityCasino", 
+			"Fields" : [
+			]
+		},
+		{
+			"Name" : "BI_ActivityPoker", 
+			"Fields" : [
+			]
+		},
+		{
+			"Name" : "BI_ActivitySport", 
+			"Fields" : [
+			]
+		},
+		{
+			"Name" : "BI_Affiliates", 
+			"Fields" : [
+			]
+		},
+		{
+			"Name" : "BI_Bonuses", 
+			"Fields" : [
+			]
+		},
+		{
+			"Name" : "BI_FirstDeposit", 
+			"Fields" : [
+			]
+		},
+		{
+			"Name" : "BI_GameList", 
+			"Fields" : [
+			]
+		},
+		{
+			"Name" : "BI_PlayerProp", 
+			"Fields" : [
+			]
+		},
+		{
+			"Name" : "BI_RT_OnlinePlayers", 
+			"Fields" : [
+			]
+		},
+		{
+			"Name" : "BI_Signups", 
+			"Fields" : [
+			]
+		},
+		{
+			"Name" : "BI_StatusChange", 
+			"Fields" : [
+			]
+		},
+		{
+			"Name" : "BI_Transactions", 
+			"Fields" : [
+			]
+		}
+	]
+}
+================= Vars end
+--http://aju.ro/rt.html?template=beehive/test_exalogic
+
+USE [exalogic_integration]
+GO
+/****** Object:  StoredProcedure [integ_bh].[Test_Beehive_Exalogic_Procedures]    Script Date: 10/13/2017 12:43:01 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================    
+-- Author:		Florin Cumpanasu    
+-- Create date: 2017-05-12    
+-- Description:	Get beehive data for BI_Affiliates    
+-- ============================================= 
+   
+ALTER PROCEDURE [integ_bh].[Test_Beehive_Exalogic_Procedures]    
+------------------------------------------------------------    
+-- Version : 1.0    
+-- Summary : Get    
+-- Created : 12/05/2017 09:04    
+--    
+-- Mods :     
+-- Author: Florin Cumpanasu    
+--    
+------------------------------------------------------------    
+	@command VARCHAR(MAX) = NULL,
+	@detailed BIT = 0
+AS
+DECLARE
+
+-- TESTING COVERS
+!===========Tables===========
+@test_@{Name}@	BIT = 1,===========!
+
+-- TESTDATA
+
+@DateTime1 DATETIME = '2017-05-01',
+@DateTime2 DATETIME = '2017-05-02',
+@DateTime3 DATETIME = '2017-05-03',
+
+
+-- USER COMMANDS
+
+@Create_Testing_Environment VARCHAR(MAX) = 'Create',
+@Delete_Testing_Environment VARCHAR(MAX) = 'Delete',
+@Reset_Testing_Environment  VARCHAR(MAX) = 'Reset',
+@Info_Testing_Environment	VARCHAR(MAX) = 'Info',
+@Run_Tests					VARCHAR(MAX) = 'Run',
+@Run_Tests_Intervals		VARCHAR(MAX) = 'Intervals',
+@Run_Tests_Repetition		VARCHAR(MAX) = 'Repetition',
+
+
+@current_environment	VARCHAR(MAX),
+@expected_environment	VARCHAR(MAX) = 'STAG-IT-EX-DB-0',
+
+-- WORKING VARIABLES
+!===========Tables===========
+@memo1_@{Name}@	BIGINT,
+@memo2_@{Name}@	BIGINT,
+@memo3_@{Name}@	BIGINT,
+===========!
+
+@generic_bigint		BIGINT = -1,
+@generic_varchar	VARCHAR(MAX);
+
+BEGIN
+	SET @current_environment = (SELECT CAST(SERVERPROPERTY('ServerName') AS VARCHAR(100)));
+	
+	IF UPPER(@command) = UPPER(@Create_Testing_Environment) BEGIN
+
+		PRINT '--------------------------' + @current_environment + '--------------------------'; 
+		PRINT @Create_Testing_Environment + ' testing environment on ' + @current_environment + '...'; 
+	
+		IF @current_environment != @expected_environment BEGIN
+			PRINT 'ERROR !';
+			PRINT 'A testing environment can only be created on a DEV environment.';
+			PRINT 'Please use ''STAG-IT-EX-DB-0'' for these tests !';
+			PRINT 'You can still run tests on an already existent environment (except production) using this command:';
+			PRINT 'EXEC [integ_bh].[Test_Beehive_Exalogic_Procedures] ''' + @Run_Tests + ''''
+		END ELSE BEGIN
+	
+			DECLARE @SQL VARCHAR(MAX);
+!===========Tables===========
+			---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+			--Create temp table for @{Name}@
+			SET @SQL = '';
+			SELECT
+				@SQL = CONCAT(@SQL, ', [' + name + '] '+ system_type_name)
+			FROM
+				sys.dm_exec_describe_first_result_set_for_object		
+				(OBJECT_ID('integ_bh.Get_@{Name}@'), NULL);
+			SET @SQL = 'CREATE TABLE ##@{Name}@ (' + SUBSTRING(@SQL, 2, LEN(@SQL)) + ')';
+
+			IF OBJECT_ID('tempdb..##@{Name}@') IS NULL BEGIN
+				EXEC (@SQL);
+				PRINT '     Created ##@{Name}@ table.'
+			END ELSE BEGIN
+				SET @generic_bigint = (SELECT COUNT(*) FROM ##@{Name}@)
+				PRINT '     Table ##@{Name}@ exists and has ' + CAST(@generic_bigint AS VARCHAR(100)) + ' records.'
+				SET @generic_bigint = -1;
+			END
+===========!
+		END		
+		PRINT '--------------------------------------------------------------------'; 
+
+	END ELSE IF UPPER(@command) = UPPER(@Delete_Testing_Environment) BEGIN
+
+		PRINT '--------------------------' + @current_environment + '--------------------------'; 
+		PRINT @Delete_Testing_Environment + ' testing environment on ' + @current_environment + '...'; 
+	
+		IF @current_environment != @expected_environment BEGIN
+			PRINT 'ERROR !';
+			PRINT 'A testing environment can only be deleted on a DEV environment.';
+			PRINT 'Please use ''STAG-IT-EX-DB-0'' for these tests !';
+			PRINT 'You can still run tests on an already existent environment (except production) using this command:';
+			PRINT 'EXEC [integ_bh].[Test_Beehive_Exalogic_Procedures] ''' + @Run_Tests + ''''
+		END ELSE BEGIN
+
+!===========Tables===========
+			---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+			--DROP temp table ##@{Name}@	
+			IF OBJECT_ID('tempdb..##@{Name}@') IS NULL BEGIN
+				PRINT '     Table ##@{Name}@ does not exist.'
+			END ELSE BEGIN
+				SET @generic_bigint = (SELECT COUNT(*) FROM ##@{Name}@)
+				DROP TABLE ##@{Name}@;
+				PRINT '     Table ##@{Name}@ with ' + CAST(@generic_bigint AS VARCHAR(100)) + ' records was deleted.'
+				SET @generic_bigint = -1;
+			END
+===========!
+		END
+		PRINT '--------------------------------------------------------------------'; 
+
+	END ELSE IF UPPER(@command) = UPPER(@Reset_Testing_Environment) BEGIN
+
+		PRINT '--------------------------' + @current_environment + '--------------------------'; 
+		PRINT @Reset_Testing_Environment + ' testing environment on ' + @current_environment + '...'; 
+	
+		IF @current_environment != @expected_environment BEGIN
+			PRINT 'ERROR !';
+			PRINT 'A testing environment can only be reinitialized on a DEV environment. This involves truncating tables';
+			PRINT 'Please use ''STAG-IT-EX-DB-0'' for these tests !';
+			PRINT 'You can still run tests on an already existent environment (except production) using this command:';
+			PRINT 'EXEC [integ_bh].[Test_Beehive_Exalogic_Procedures] ''' + @Run_Tests + ''''
+		END ELSE BEGIN
+	
+
+!===========Tables===========
+			---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+			--TRUNCATE temp table ##@{Name}@	
+			IF OBJECT_ID('tempdb..##@{Name}@') IS NULL BEGIN
+				PRINT '     Table ##@{Name}@ does not exist.'
+			END ELSE BEGIN
+				SET @generic_bigint = (SELECT COUNT(*) FROM ##@{Name}@)
+				DELETE FROM ##@{Name}@;
+				PRINT '     Table ##@{Name}@ with ' + CAST(@generic_bigint AS VARCHAR(100)) + ' records was truncated.'
+				SET @generic_bigint = -1;
+			END
+===========!
+		END
+		PRINT '--------------------------------------------------------------------';  
+
+	END ELSE IF UPPER(@command) = UPPER(@Info_Testing_Environment) BEGIN
+
+		PRINT '--------------------------' + @current_environment + '--------------------------'; 
+		PRINT @Info_Testing_Environment + ' testing environment on ' + @current_environment + '...'; 
+!===========Tables===========
+			---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+			--INFO temp table ##@{Name}@	
+			IF OBJECT_ID('tempdb..##@{Name}@') IS NULL BEGIN
+				PRINT '     Table ##@{Name}@ does not exist.'
+			END ELSE BEGIN
+				SET @generic_bigint = (SELECT COUNT(*) FROM ##@{Name}@)
+				PRINT '     Table ##@{Name}@ has ' + CAST(@generic_bigint AS VARCHAR(100)) + ' records.'
+				SET @generic_bigint = -1;
+			END
+===========!
+		PRINT '--------------------------------------------------------------------'; 
+	END ELSE IF UPPER(@command) = UPPER(@Run_Tests) OR UPPER(@command) = UPPER(@Run_Tests_Repetition) OR UPPER(@command) = UPPER(@Run_Tests_Intervals) BEGIN
+		-- Nothing to to at the moment. This case is later handled.
+		SELECT @@SERVERNAME;
+		---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+		---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	END ELSE BEGIN
+
+		PRINT '--------------------------' + @current_environment + '--------------------------'; 
+		PRINT ''
+		PRINT 'EXEC [integ_bh].[Test_Beehive_Exalogic_Procedures] ''help'' '
+		PRINT '-- To see this help.'; 
+		PRINT ''
+		PRINT 'EXEC [integ_bh].[Test_Beehive_Exalogic_Procedures] ''' + @Create_Testing_Environment + ''''
+		PRINT '-- To ' + LOWER(@Create_Testing_Environment) + ' testing environment on ' + @current_environment + '.'; 
+		PRINT ''
+		PRINT 'EXEC [integ_bh].[Test_Beehive_Exalogic_Procedures] ''' + @Reset_Testing_Environment + ''''
+		PRINT '-- To ' + LOWER(@Reset_Testing_Environment) + ' testing environment on ' + @current_environment + '.'; 
+		PRINT ''
+		PRINT 'EXEC [integ_bh].[Test_Beehive_Exalogic_Procedures] @detailed = 0, @command = ''' + @Run_Tests + ''''
+		PRINT '-- To ' + LOWER(@Run_Tests) + ' all tests on ' + @current_environment + '.'; 
+		PRINT ''
+		PRINT 'EXEC [integ_bh].[Test_Beehive_Exalogic_Procedures] @detailed = 0, @command = ''' + @Run_Tests_Intervals + ''''
+		PRINT '-- To ' + LOWER(@Run_Tests_Intervals) + ' all tests on ' + @current_environment + '.'; 
+		PRINT ''
+		PRINT 'EXEC [integ_bh].[Test_Beehive_Exalogic_Procedures] @detailed = 0, @command = ''' + @Run_Tests_Repetition + ''''
+		PRINT '-- To ' + LOWER(@Run_Tests_Repetition) + ' all tests on ' + @current_environment + '.'; 
+		PRINT ''
+		PRINT 'EXEC [integ_bh].[Test_Beehive_Exalogic_Procedures] ''' + @Info_Testing_Environment + ''''
+		PRINT '-- To ' + LOWER(@Info_Testing_Environment) + ' testing environment on ' + @current_environment + '.'; 
+		PRINT ''
+		PRINT 'EXEC [integ_bh].[Test_Beehive_Exalogic_Procedures] ''' + @Delete_Testing_Environment + ''''
+		PRINT '-- To ' + LOWER(@Delete_Testing_Environment) + ' testing environment on ' + @current_environment + '.'; 
+
+
+		PRINT '-- Observe the ending Zero'; 
+		PRINT '-- 0 = do not display processed data'; 
+		PRINT '-- 1 = display processed data (might be significant slower because it executes two times each procedure: once for display and once for storage)'; 
+		SET @generic_bigint = -1;
+	END 
+	---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+	---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	IF UPPER(@command) = UPPER(@Run_Tests) OR UPPER(@command) = UPPER(@Run_Tests_Intervals) BEGIN
+
+		PRINT '--------------------------' + @current_environment + '--------------------------'; 
+		PRINT @Run_Tests + ' all tests on ' + @current_environment + '...'; 
+		
+
+		PRINT '     TEST 1.';
+		PRINT '     Test interval addition.';
+		PRINT '     The number of records obtained on sub-intervals should be equal to the number of records obtained on the initial interval.'; 
+		PRINT '     Interpreting the results: Cumulated = Total because Total = First + Second.'; 
+		
+		-- Step 1
+		PRINT '				STEP 1.';
+		PRINT '				Process first sub-interval.';
+		IF @detailed = 1 BEGIN
+			SELECT 'Testing ' + @Run_Tests_Intervals + ' (STEP 1 - Process first sub-interval)';
+		END
+!===========Tables===========
+		DELETE FROM ##@{Name}@;
+		SET @memo1_@{Name}@ = 0;
+		IF @test_@{Name}@ = 1 BEGIN
+			PRINT '					EXEC [integ_bh].[Get_@{Name}@] @startingDatetime = ''' + convert(nvarchar(MAX), @DateTime1, 120) + ''', @endingDatetime = ''' + convert(nvarchar(MAX), @DateTime2, 120) + ''';';
+			INSERT INTO ##@{Name}@ EXEC [integ_bh].[Get_@{Name}@] @startingDatetime = @DateTime1, @endingDatetime = @DateTime2;
+			IF @detailed = 1 BEGIN
+				EXEC [integ_bh].[Get_@{Name}@] @startingDatetime = @DateTime1, @endingDatetime = @DateTime2;
+			END
+			SET @memo1_@{Name}@ = (SELECT COUNT(*) FROM ##@{Name}@);
+		END
+===========!
+
+		-- Step 2
+		PRINT '				STEP 2.';
+		PRINT '				Process second sub-interval.';
+		IF @detailed = 1 BEGIN
+			SELECT 'Testing ' + @Run_Tests_Intervals + ' (STEP 2 - Process second sub-interval)';
+		END
+
+!===========Tables===========
+		DELETE FROM ##@{Name}@;
+		SET @memo2_@{Name}@ = 0;
+		IF @test_@{Name}@ = 1 BEGIN
+			PRINT '					EXEC [integ_bh].[Get_@{Name}@] @startingDatetime = ''' + convert(nvarchar(MAX), @DateTime2, 120) + ''', @endingDatetime = ''' + convert(nvarchar(MAX), @DateTime3, 120) + ''';';
+			INSERT INTO ##@{Name}@ EXEC [integ_bh].[Get_@{Name}@] @startingDatetime = @DateTime2, @endingDatetime = @DateTime3;
+			IF @detailed = 1 BEGIN
+				EXEC [integ_bh].[Get_@{Name}@] @startingDatetime = @DateTime2, @endingDatetime = @DateTime3;
+			END
+			SET @memo2_@{Name}@ = (SELECT COUNT(*) FROM ##@{Name}@);
+		END
+===========!
+		
+		-- Step 3
+		PRINT '				STEP 3.';
+		PRINT '				Process the full interval.';
+		IF @detailed = 1 BEGIN
+			SELECT 'Testing ' + @Run_Tests_Intervals + ' (STEP 3 - Process the full interval)';
+		END
+
+!===========Tables===========
+		DELETE FROM ##@{Name}@;
+		SET @memo3_@{Name}@ = 0;
+		IF @test_@{Name}@ = 1 BEGIN
+			PRINT '					EXEC [integ_bh].[Get_@{Name}@] @startingDatetime = ''' + convert(nvarchar(MAX), @DateTime1, 120) + ''', @endingDatetime = ''' + convert(nvarchar(MAX), @DateTime3, 120) + ''';';
+			INSERT INTO ##@{Name}@ EXEC [integ_bh].[Get_@{Name}@] @startingDatetime = @DateTime1, @endingDatetime = @DateTime3;
+			IF @detailed = 1 BEGIN
+				EXEC [integ_bh].[Get_@{Name}@] @startingDatetime = @DateTime1, @endingDatetime = @DateTime3;
+			END
+			SET @memo3_@{Name}@ = (SELECT COUNT(*) FROM ##@{Name}@);
+		END
+===========!
+
+		-- Show results -- Cumulated = Test
+
+		SELECT 'Testing ' + @Run_Tests_Repetition + ' INTERPRETATION: Should Test == Cumulated because Cumulated = First + Second. If FAILD intervals are overlapping!';
+		PRINT '=======================================================================================================================================================';
+		PRINT 'Testing ' + @Run_Tests_Repetition + ' INTERPRETATION: Should Test == Cumulated because Cumulated = First + Second. If FAILD intervals are overlapping!';
+		PRINT 'This might be ok if the procedures reduce elements that are present in both intervals.';
+		PRINT '=======================================================================================================================================================';
+		SELECT 
+			1 AS 'Id',
+			'First' AS 'Interval',
+!===========Tables===========
+			@memo1_@{Name}@ AS '@{Name}@',
+===========!
+			1 AS 'Id2'
+		UNION
+		SELECT 
+			2 AS 'Id',
+			'Second' AS 'Interval',
+!===========Tables===========
+			@memo2_@{Name}@ AS '@{Name}@',
+===========!
+			2 AS 'Id2'
+		UNION
+		SELECT 
+			3 AS 'Id',
+			'Cumulated' AS 'Interval',
+!===========Tables===========
+			@memo3_@{Name}@ AS '@{Name}@',
+===========!
+			3 AS 'Id2'
+		UNION
+		SELECT 
+			4 AS 'Id',
+			'Test' AS 'Interval',
+!===========Tables===========
+			(@memo1_@{Name}@ + @memo2_@{Name}@) AS '@{Name}@',
+===========!
+			4 AS 'Id2';
+
+		PRINT '--------------------------------------------------------------------'; 
+	END 
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+	IF UPPER(@command) = UPPER(@Run_Tests) OR UPPER(@command) = UPPER(@Run_Tests_Repetition) BEGIN
+
+		PRINT '--------------------------' + @current_environment + '--------------------------'; 
+
+		PRINT '     TEST 2.';
+		PRINT '     Test repetitive runs.';
+		PRINT '     Repeting the action on same interval should result in the same number of records.'; 
+		PRINT '     Interpreting the results: All numbers on the same column should be identical because they are repetition on the same interval.'; 
+
+		-- Step 1
+		PRINT '				STEP 1.';
+		PRINT '				Process first transfer to empty destination.';
+		IF @detailed = 1 BEGIN
+			SELECT 'Testing ' + @Run_Tests_Repetition + ' (STEP 1 - Process first transfer to empty destination)';
+		END
+
+!===========Tables===========
+		DELETE FROM ##@{Name}@;
+		SET @memo1_@{Name}@ = 0;
+		IF @test_@{Name}@ = 1 BEGIN
+			PRINT '					EXEC [integ_bh].[Get_@{Name}@] @startingDatetime = ''' + convert(nvarchar(MAX), @DateTime1, 120) + ''', @endingDatetime = ''' + convert(nvarchar(MAX), @DateTime2, 120) + ''';';
+			INSERT INTO ##@{Name}@ EXEC [integ_bh].[Get_@{Name}@] @startingDatetime = @DateTime1, @endingDatetime = @DateTime2;
+			IF @detailed = 1 BEGIN
+				EXEC [integ_bh].[Get_@{Name}@] @startingDatetime = @DateTime1, @endingDatetime = @DateTime2;
+			END
+			SET @memo1_@{Name}@ = (SELECT COUNT(*) FROM ##@{Name}@);
+		END
+===========!
+
+		PRINT '				STEP 2.';
+		PRINT '				Process second attempt to empty destination.';
+		IF @detailed = 1 BEGIN
+			SELECT 'Testing ' + @Run_Tests_Repetition + ' (STEP 2 - Process second attempt on empty destination)';
+		END
+
+!===========Tables===========
+		DELETE FROM ##@{Name}@;
+		SET @memo2_@{Name}@ = 0;
+		IF @test_@{Name}@ = 1 BEGIN
+			PRINT '					EXEC [integ_bh].[Get_@{Name}@] @startingDatetime = ''' + convert(nvarchar(MAX), @DateTime1, 120) + ''', @endingDatetime = ''' + convert(nvarchar(MAX), @DateTime2, 120) + ''';';
+			INSERT INTO ##@{Name}@ EXEC [integ_bh].[Get_@{Name}@] @startingDatetime = @DateTime1, @endingDatetime = @DateTime2;
+			IF @detailed = 1 BEGIN
+				EXEC [integ_bh].[Get_@{Name}@] @startingDatetime = @DateTime1, @endingDatetime = @DateTime2;
+			END
+			SET @memo2_@{Name}@ = (SELECT COUNT(*) FROM ##@{Name}@);
+		END
+===========!
+
+		-- Step 3
+		PRINT '				STEP 3.';
+		PRINT '				Process third attempt on dirty destination.';
+		IF @detailed = 1 BEGIN
+			SELECT 'Testing ' + @Run_Tests_Repetition + ' (STEP 3 - Process third attempt on dirty destination)';
+		END
+
+!===========Tables===========
+		SET @memo3_@{Name}@ = 0;
+		IF @test_@{Name}@ = 1 BEGIN
+			PRINT '					EXEC [integ_bh].[Get_@{Name}@] @startingDatetime = ''' + convert(nvarchar(MAX), @DateTime1, 120) + ''', @endingDatetime = ''' + convert(nvarchar(MAX), @DateTime2, 120) + ''';';
+			INSERT INTO ##@{Name}@ EXEC [integ_bh].[Get_@{Name}@] @startingDatetime = @DateTime1, @endingDatetime = @DateTime2;
+			IF @detailed = 1 BEGIN
+				EXEC [integ_bh].[Get_@{Name}@] @startingDatetime = @DateTime1, @endingDatetime = @DateTime2;
+			END
+			SET @memo3_@{Name}@ = (SELECT COUNT(*) FROM ##@{Name}@);
+		END
+===========!
+
+		SELECT 'Testing ' + @Run_Tests_Repetition + ' INTERPRETATION: Should First = Second = Dirty. If First != Second than can not repeat transfer. If Second != Dirty can not overwite transferred data, dupicates are created!';
+		PRINT '=======================================================================================================================================================';
+		PRINT 'Testing ' + @Run_Tests_Repetition + ' INTERPRETATION: Should First = Second = Dirty. If First != Second than can not repeat transfer. If Second != Dirty can not overwite transferred data, dupicates are created!';
+		PRINT '=======================================================================================================================================================';
+		SELECT 	
+			1 AS 'Id',		
+			'First' AS 'Interval',
+!===========Tables===========
+			@memo1_@{Name}@ AS '@{Name}@',
+===========!
+			1 AS 'Id2'
+		UNION
+		SELECT  
+			2 AS 'Id',
+			'Second' AS 'Interval',
+!===========Tables===========
+			@memo2_@{Name}@ AS '@{Name}@',
+===========!
+			2 AS 'Id2'
+		UNION
+		SELECT  
+			3 AS 'Id',
+			'Dirty' AS 'Interval',
+!===========Tables===========
+			@memo3_@{Name}@ AS '@{Name}@',
+===========!
+			3 AS 'Id2';
+
+		PRINT '--------------------------------------------------------------------'; 
+	END
+END
