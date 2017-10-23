@@ -11,22 +11,18 @@ https://github.com/profimedica/Templater/wiki/Ajuro-Template-Processor
 
 ## Features
 
-v.0.0.3
-Implemented Template Processor in Typescript
-v.0.0.2
-Add configurations
-v.0.0.1
-Use local templates from C:\\AJP-Templates
+v.0.0.X
+The code processor has 2 components:
 
-Planned for v.0.0.4
-Automatic download templates.
-Use markers to inject code.
+TemplateProcessor creates an .ajpready file when a template file .ajp is saved.
 
-> Tip: The current release is not fully implemented.
+TemplayeInterpreter will inject the code fragments into your code when a .ajpready file is saved. 
 
 ## Requirements
 
-Folder C:\\AJP-Templates is needed.
+Directory C:\\AJP-Templates is used by default, but you can change the root location of the templates from configuration.
+
+Also you can change the template files extension and the template ready files extension.
 
 ## Extension Settings
 
@@ -34,7 +30,9 @@ None
 
 ## Known Issues
 
-Not fully impleented
+Next step is to split the template files and the file of variables that the user provides for the TemplateProcessor.
+
+For the moment, the template code and the vatiables that appy to the template are located in the same file.
 
 ## Release Notes
 

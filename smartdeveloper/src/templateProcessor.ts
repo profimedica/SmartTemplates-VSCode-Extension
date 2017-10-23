@@ -59,9 +59,9 @@ export class TemplateProcessor {
                 let fileExtension = '';
                 if(document != undefined && document.fileName != undefined && document.fileName.lastIndexOf('.') > -1)
                 {
-                    fileExtension = document.fileName.substring(document.fileName.lastIndexOf('.'));
+                    fileExtension = document.fileName.substring(document.fileName.lastIndexOf('.') + 1);
                 }
-                if(fileExtension !== vscode.workspace.getConfiguration('templateProcessor').templateFilesExtension)
+                if(fileExtension == vscode.workspace.getConfiguration('templateProcessor').templateFilesExtension)
                 {
                     this.processTemplate( document );
                 }
@@ -120,7 +120,7 @@ export class TemplateProcessor {
             this.BuildTemplate();
             const processed = this.ApplyTemplate();
 
-            const outputPath = document.fileName.replace('.ajp', '.js');
+            const outputPath = document.fileName.replace('.' + vscode.workspace.getConfiguration('templateProcessor').templateFilesExtension, '.' + vscode.workspace.getConfiguration('templateInterpreter').templateReadyFilesExtension);
             const fileExistsOriginal = fs.existsSync(outputPath);
 
             fs.writeFile(outputPath, processed, { flag: 'w' }, function (err) {

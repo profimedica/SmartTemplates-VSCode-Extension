@@ -2,7 +2,7 @@
 	"name": "smarttemplateprocessor",
 	"displayName": "Smart Template Processor",
 	"description": "https://github.com/profimedica/Templater/wiki/Ajuro-Template-Processor",
-	"version": "0.0.12",
+	"version": "0.0.13",
 	"publisher": "profimedica",
 	"engines": {
 		"vscode": "^1.16.0"
@@ -14,7 +14,7 @@
 		"onCommand:extension.SmartTemplateProcessor",
 		"onView:templateManager",
 		"onView:jsonOutline",
-        "*"
+		"*"
 	],
 	"main": "./out/extension",
 	"contributes": {
@@ -47,16 +47,16 @@
 		},
 		"commands": [
 			{
-                "command": "templateProcessor.enable",
-                "title": "Parse On Save: Enable"
-            },
-            {
-                "command": "templateProcessor.disable",
-                "title": "Parse On Save: Disable"
-            },
-            {
-                "command": "templateProcessor.toggle",
-                "title": "Parse On Save: Toggle"
+				"command": "templateProcessor.enable",
+				"title": "Parse On Save: Enable"
+			},
+			{
+				"command": "templateProcessor.disable",
+				"title": "Parse On Save: Disable"
+			},
+			{
+				"command": "templateProcessor.toggle",
+				"title": "Parse On Save: Toggle"
 			},
 			{
 				"command": "templateManager.addEntry",
@@ -88,35 +88,40 @@
 			}
 		],
 		"configuration": {
-            "type": "object",
-            "title": "Smart Template Processor configuration",
-            "properties": {
-                "TemplateManagerProvider.templateFilesRootDirectory": {
-                    "type": "string",
-                    "description": "Root directory for all template files. Ignore the drive letter C:\\ because it will be added internally.",
-                    "default": "AJP-Templates"
-                },
-                "templateManager.templateFilesExtension": {
-                    "type": "string",
-                    "description": "Template files extension",
-                    "default": "ajp"
-                },
-                "templateProcessor.on": {
-                    "type": "boolean",
-                    "description": "Automatically trigger template processor on save",
-                    "default": true
-                },
-                "templateProcessor.restart": {
-                    "type": "boolean",
-                    "description": "Kill the task first if it is already running",
-                    "default": true
-                },
-                "templateProcessor.tasks": {
-                    "type": "object",
-                    "description": "Tasks to associate with file globs, e.g. \"build\": [\"**/*.h\",\"**/*.cpp\"]",
-                    "default": {}
-                }
-            }
+			"type": "object",
+			"title": "Smart Template Processor configuration",
+			"properties": {
+				"TemplateManagerProvider.templateFilesRootDirectory": {
+					"type": "string",
+					"description": "Root directory for all template files. Ignore the drive letter C:\\ because it will be added internally.",
+					"default": "AJP-Templates"
+				},
+				"templateProcessor.templateFilesExtension": {
+					"type": "string",
+					"description": "Template files extension. Tempates take variables to be procesed into TemplateReady files.",
+					"default": "ajp"
+				},
+				"templateInterpreter.templateReadyFilesExtension": {
+					"type": "string",
+					"description": "TemplateReady files extension. These files instruct the TemplateInterpreter how to inject the code frajments into your project.",
+					"default": "ajpready"
+				},
+				"templateProcessor.on": {
+					"type": "boolean",
+					"description": "Automatically trigger template processor on save",
+					"default": true
+				},
+				"templateProcessor.restart": {
+					"type": "boolean",
+					"description": "Kill the task first if it is already running",
+					"default": true
+				},
+				"templateProcessor.tasks": {
+					"type": "object",
+					"description": "Tasks to associate with file globs, e.g. \"build\": [\"**/*.h\",\"**/*.cpp\"]",
+					"default": {}
+				}
+			}
 		},
 		"views": {
 			"explorer": [
@@ -133,14 +138,28 @@
 		}
 	},
 	"devDependencies": {
+		"@types/mocha": "^2.2.42",
+		"@types/node": "^7.0.43",
+		"chai": "^4.1.2",
+		"karma": "^1.7.1",
+		"karma-chai": "^0.1.0",
+		"karma-mocha": "^1.3.0",
+		"karma-phantomjs-launcher": "^1.0.4",
+		"karma-sinon": "^1.0.5",
+		"karma-typescript-preprocessor2": "^1.2.1",
+		"karma-webpack": "^2.0.5",
+		"mocha": "^4.0.1",
+		"phantomjs-prebuilt": "^2.1.15",
+		"sinon": "^4.0.1",
+		"ts-loader": "^3.0.5",
 		"typescript": "^2.5.3",
 		"vscode": "^1.1.5",
-		"@types/node": "^7.0.43",
-		"@types/mocha": "^2.2.42"
+		"webpack": "^3.8.1"
 	},
 	"scripts": {
 		"prepublishOnly": "tsc -p ./",
 		"build": "tsc -p ./",
+		"compile": "tsc ./src/templateProcessor --outDir ./out",
 		"prepare": "tsc -p ./",
 		"watch": "tsc -watch -p ./",
 		"postinstall": "node ./node_modules/vscode/bin/install",
