@@ -25,11 +25,15 @@ export function activate(context: vscode.ExtensionContext) {
 		if(fileExtension == vscode.workspace.getConfiguration('templateProcessor').templateFilesExtension)
 		{
 			vscode.commands.executeCommand('templateProcessor.processTemplate', document);
-		}		
+		} else	
 		if(fileExtension == vscode.workspace.getConfiguration('templateInterpreter').templateReadyFilesExtension)
 		{
 			vscode.commands.executeCommand('templateInterpreter.applyTemplate', document);
-		}		
+		} else 
+		if(vscode.workspace.getConfiguration('livePreview').livePreviewFilesExtensions.split(' ').includes(fileExtension))
+		{			
+			vscode.commands.executeCommand('livePreview.createLivePreview', document);
+		}
 	});
 	vscode.commands.registerCommand('extension.openPackageOnNpm', moduleName => {
 		vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(`https://www.npmjs.com/package/${moduleName}`));

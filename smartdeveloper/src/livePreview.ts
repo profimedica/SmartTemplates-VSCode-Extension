@@ -28,7 +28,7 @@ export class LivePreview {
 
         if (onFormat)
         {
-            const content = document.getText();
+            let content = document.getText();
             
             // Apply replacements
             let fileExtension = '';
@@ -36,34 +36,35 @@ export class LivePreview {
             {
                 fileExtension = document.fileName.substring(document.fileName.lastIndexOf('.') + 1);
             }
-            const rulesContent = fs.readFileSync('ajp-replacements.' + fileExtension, 'UTF-8');
-            const rulesList = rulesContent.split(/\r?\n/);
+            const rulesContent = fs.readFileSync('AJP-Replacements-' + fileExtension + '.rules', 'UTF-8');
+            let rulesList = rulesContent.split(/\r?\n/);
 
             rulesList.forEach(rule => {
-                const ruleArray = rule.split('\t');
-                rulesContent = Result.replace(/</g, ruleArray[1]);
+                if(rule[0].trim() != '#'){
+                    const ruleArray = rule.split('\t');
+                    content = content.replace(new RegExp(ruleArray[0], 'g'), ruleArray[1]);
+                }
             });
             // Write output
-            const outputPath = document.fileName.replace('/src/', '/live/');
-            const fileExistsOriginal = fs.existsSync(outputPath);
-            fs.writeFile(outputPath, processed, { flag: 'w' }, function (err) {
+            const outputPath = document.fileName.replace('\\src\\', '\\live\\');
+            const outputPathFragments = outputPath.split('\\');
+            let partialOutputPath = '';
+            outputPathFragments.forEach(fragment=>{
+                partialOutputPath += outputPathFragments + '\\';
+                if(!fs.existsSync(outputPath)) {
+                    fs.mkdirSync(outputPath);
+                }
+            });
+            fs.writeFile(outputPath, content, { flag: 'w' }, function (err) {
                 if (err) 
                 {
                     throw err;
                 }
-                if(!fileExistsOriginal)
+                if(!outputPath)
                 {
                     console.log( 'AJP - Live file was created: ' + outputPath );
                 }
             });
         }
-    }
-
-    AddFormat(Result) {
-        Result = Result.replace(/</g, '&lt;');
-        Result = Result.replace(/ /g, '&nbsp;');
-        Result = Result.replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;');
-        Result = Result.replace(/\n/g, '</br>\n');
-        return Result; 
     }
 }
