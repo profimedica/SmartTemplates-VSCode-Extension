@@ -1,0 +1,228 @@
+================= Vars begin
+{
+	"MyAppSpace":"Miap",
+	"MyAppClass":"MyModel",
+	"Translates":
+	{
+		"Generated" :
+		{
+			"int" : "@##this.RandomInteger(10)##@",
+			"bigint" : "@##this.RandomInteger(100)##@",
+			"nvarchar" : "CONCAT('@{Name}@_', CAST(@##this.RandomInteger(100)##@ AS INT))",
+			"nchar" : " CAST(@##RandomInteger(100)##@ AS INT)",
+			"decimal" : "@##this.RandomInteger(100)##@",
+			"numeric" : "@##this.RandomInteger(100)/10##@",
+			"reference" : "CONCAT('City_', CAST((SELECT TOP 1 Id as reference FROM @{Referencing_Table}@ WHERE @{Referencing_Table}@.@{Referencing_Column}@ IS NOT NULL ORDER BY NewID()) AS INT))",
+			"datetime0" : "DATEADD(MONTH, CAST(@##this.RandomInteger(11)##@ AS INT), DATEADD(DAY, CAST(@##this.RandomInteger(29)##@ AS INT), GETDATE()))",
+			"datetime" : "DATEADD(DAY, CAST(@##this.RandomInteger(29)##@ AS INT), GETDATE())",
+			"date" : "GETDATE()",
+			"bit" : "0"
+		}
+	},
+	"Tables" :
+	[
+		{
+			"Name" : "Test_Phonebook",
+			"Schema" : "dbo",
+			"PK" : [ "ProductID", "CustomerID" ],
+			"Columns":
+			[
+				{ "Name":"Id", "Type":"int", "Skeep": 1, "IsKey":1},
+				{ "Name":"Name", "Type":"nvarchar", "Precision":"60"},
+				{ "Name":"Age", "Type":"int", "Nullable" : true},
+				{ "Name":"Phone", "Type":"nvarchar", "Precision":"60", "IsKey":false},
+				{ "Name":"Description", "Type":"nvarchar", "Precision":"300", "Nullable" : true, "IsKey" : 2},
+				{ "Name":"Note", "Type":"nvarchar", "Precision":"300", "Nullable" : true},
+				{ "Name":"City", "Type":"nvarchar", "Precision":"60"},
+				{ "Name":"Street", "Type":"nvarchar", "Precision":"60"},
+				{ "Name":"URL", "Type":"nvarchar", "Precision":"50", "Nullable" : true},
+				{ "Name":"Prints", "Type":"int", "Nullable" : true},
+				{ "Name":"ActivFrom", "Type":"datetime", "Nullable" : true},
+				{ "Name":"ActivTo", "Type":"datetime", "Nullable" : true},
+				{ "Name":"IsDeliveryAddress", "Type":"bit"},
+				{ "Name":"Suspended", "Type":"bit"}
+			]
+		},
+		{	
+			"Name" : "Test_Customer",
+			"Schema" : "dbo",
+			"PK" : [ "ProductID", "CustomerID" ],
+			"Columns":
+			[
+				{ "Name":"CustomerId", "Type":"int", "IsKey":true},
+				{ "Name":"Phone", "Type":"nvarchar", "Precision":"60", "IsKey":false},
+				{ "Name":"Name", "Type":"nvarchar", "Precision":"60", "IsUnique": true},
+				{ "Name":"URL", "Type":"nvarchar", "Precision":"50", "Nullable" : true},
+				{ "Name":"Age", "Type":"int", "Nullable" : true},
+				{ "Name":"Suspended", "Type":"bit"}
+			]
+		},
+		{			
+			"Name" : "Test_Address",
+			"Schema" : "dbo",
+			"PK" : [ "ProductID", "CustomerID" ],
+			"Columns":
+			[
+				{ "Name":"AddressId", "Type":"int", "IsKey":true},
+				{ "Name":"CustomerIdRef", "Type":"int", "Referencing_Table": "Test_Customer", "Referencing_Column": "CustomerId"},				
+				{ "Name":"Description", "Type":"nvarchar", "Precision":"300", "Nullable" : true, "IsKey" : 2},
+				{ "Name":"City", "Type":"nvarchar", "Precision":"60", "IsUnique": true },
+				{ "Name":"Street", "Type":"nvarchar", "Precision":"60", "IsUnique": true },
+				{ "Name":"Prints", "Type":"int", "Nullable" : true},
+				{ "Name":"ActivFrom", "Type":"datetime", "Nullable" : true},
+				{ "Name":"ActivTo", "Type":"datetime", "Nullable" : true},
+				{ "Name":"Note", "Type":"nvarchar", "Precision":"300", "Nullable" : true},
+				{ "Name":"IsDeliveryAddress", "Type":"bit"}
+			]
+		}
+	]
+}
+================= Vars end
+!=========== Main ===========
+// Create SqlServer Table with dummy content
+
+VARIABLES
+    Bar Chart view : My Chart view
+    canvasName : myCanvas
+    chartVariableName : myChart
+    chartGetterMethodName : getMyChart
+
+    !=========== Tables ===========
+File: RUN-SQL
+
+      *************************************************************
+      # Add the canvas to the view
+      AJP-SECTION Content -->
+      ---------------------------
+        ---- ---- ---- ---- ---- ---- ---- ---- CREATE @{Name}@ TABLE ---- ---- ---- ---- ---- ---- ---- ----
+        CREATE TABLE [@{Schema}@].[@{Name}@]
+        (
+          !=========== Columns ===========
+          @~Printed.Columns > 0~@~,~@~~@ [@{Name}@] [@{Type}@]@~(typeof(@{Precision}@) !== 'undefined')~@~(@{Precision}@)~@~~@@~(typeof(@{IsKey}@) !== 'undefined' && @{IsKey}@ == true )~@~ IDENTITY(1,1) PRIMARY KEY~@~~@@~(typeof(@{IsKey}@) === 'undefined' || @{IsKey}@ != true )~@~ NULL~@~~@
+          ===========!	
+        ) ON [PRIMARY]        
+      ---------------------------
+    ===========!
+
+
+    !=========== Tables ===========
+File: RUN-SQL
+
+    *************************************************************
+    # Add the canvas to the view
+    AJP-SECTION Content -->
+    ---------------------------
+      ---- ---- ---- ---- ---- ---- ---- ---- FILL TABLE @{Name}@ ---- ---- ---- ---- ---- ---- ---- ----
+	    -- Duplicate keys will be ignored
+	    -- SET IDENTITY_INSERT @{Name}@ ON -- If you want to populate the identity column
+
+	    INSERT INTO [@{Schema}@].[@{Name}@]
+	    (
+		    !=========== Columns ===========
+		    @~ (typeof(@{IsKey}@)==='undefined'||@{IsKey}@==false) ~@~@~Printed.Columns > 0~@~,~@~~@[@{Name}@]~@~~@
+		    ===========!
+	    ) VALUES (
+		    !=========== Columns ===========
+		    @~ (typeof(@{IsKey}@)==='undefined'||@{IsKey}@==false) ~@~@~Printed.Columns > 0~@~,~@~~@ CONVERT([@{Type}@]@~(typeof(@{Precision}@) !== 'undefined')~@~(@{Precision}@)~@~~@, @``Generated``@``@~(typeof(@{Referencing_Table}@) !== 'undefined')~@~reference~@~@{Type}@~@``@@~(typeof( @{Style}@) !== 'undefined')~@~, @{Style}@~@~~@)~@~~@	
+		    ===========!
+	    );
+	    -- SET IDENTITY_INSERT @{Name}@ OFF -- To revert the identity insert to it's original value
+	  ===========!
+
+
+SUPPORT CODE
+
+Support file: src\pages\charts\charts-component\charts.component.ts
+========================================================================================
+========================================================================================
+import { Component, ViewChild } from '@angular/core';
+
+import { NavController } from 'ionic-angular';
+import Chart from 'chart.js';
+
+@Component({
+	selector: 'page-charts',
+	templateUrl: 'charts.html'
+})
+export class ChartsComponent {
+	// AJP-SECTION Children -->
+
+	// AJP-SECTION Variabes -->
+
+	constructor(public navCtrl: NavController) {
+
+	}
+
+	ionViewDidLoad() {
+		// AJP-SECTION OnViewLoad -->
+	}
+
+	getChart(context, chartType, data, options?) {
+		return new Chart(context, {
+		  type: chartType,
+		  data: data,
+		  options: options
+		});
+	}
+
+	// AJP-SECTION Methods -->
+}
+
+========================================================================================
+========================================================================================
+
+
+Support file: src\pages\charts\charts-component\charts.component.ts
+========================================================================================
+========================================================================================
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '../../app/shared/shared.module';
+import { ChartsComponent } from './charts-component/charts.component';
+
+@NgModule({
+  declarations: [
+    ChartsComponent
+  ],
+  imports: [
+  	CommonModule,
+  	SharedModule
+  ],
+  exports: [
+    ChartsComponent
+  ],
+  entryComponents:[
+  	ChartsComponent
+  ]
+})
+export class ChartsModule {}
+========================================================================================
+========================================================================================
+
+Support file: src\pages\charts\charts-component\charts.component.ts
+========================================================================================
+========================================================================================
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '../../app/shared/shared.module';
+import { ChartsComponent } from './charts-component/charts.component';
+
+@NgModule({
+  declarations: [
+    ChartsComponent
+  ],
+  imports: [
+  	CommonModule,
+  	SharedModule
+  ],
+  exports: [
+    ChartsComponent
+  ],
+  entryComponents:[
+  	ChartsComponent
+  ]
+})
+export class ChartsModule {}
+========================================================================================
+========================================================================================
+===========!

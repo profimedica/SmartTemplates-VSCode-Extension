@@ -1,0 +1,89 @@
+================= Vars begin
+
+{
+	"MyAppSpace":"Miap",
+	"MyAppClass":"MyModel",
+	"Translates":
+	{
+		"Generated" :
+		{
+			"form_width" : "100",
+			"form_begin" : "<form>",
+			"form_end"   : "</form>",
+			"table_begin" : "<table>",
+			"table_end"   : "</table>",
+			"my_style"   : "<style>.generic_title{color: red} .label_style{text-align: right; width: 150px; color: blue; background-color: #FFD; border: 1px solid gray }</style>",
+			"closed_div" : "</div>",
+			"open_title" : "<div class='generic_title'>",
+
+			"input_text_control" : "<tr><td class='label_style'>@{label}@: </td><td class='input_element'><input type='text' name='first_name' value='@{value}@' /></td></tr>",
+			"input_password_control" : "<tr><td class='label_style'>@{label}@: </td><td class='input_element'><input type='password' name='first_name' value='@{value}@' /></td></tr>",
+			"input_multiline_control" : "<tr><td class='label_style'>@{label}@: </td><td class='input_element'><textarea rows='5' cols='50' name='description'>@{value}@</textarea></td></tr>",
+			"input_checkbox_control" : "<tr><td class='label_style'>@{label}@: </td><td class='input_element'><input type='checkbox' name='group1' value='on'> Maths</td></tr>",
+			"input_radiobox_control" : "<tr><td class='label_style'>@{label}@: </td><td class='input_element'><input type='radio' name='group1' value='on'> Maths</td></tr>",
+			"input_option_control" : "<tr><td class='label_style'>@{label}@: </td><td class='input_element'><select name='dropdown' value='@{value}@'><option value='Two'>Two</option><option value='input_option_control'>input_option_control</option></select></td></tr>",
+			"input_upload_control" : "<tr><td class='label_style'>@{label}@: </td><td class='input_element'><input type='file' name='fileupload' accept='image/*' /></td></tr>",
+			"input_hidden_control" : "<tr><td class='label_style'>@{label}@: </td><td class='input_element'><input type='hidden' name='hidden_info' /></td></tr>",
+			"input_button_control" : "<tr><td class='label_style'>@{label}@: </td><td class='input_element'><input type='button' name='hidden_info' value='@{value}@' /></td></tr>"
+}
+	},	
+	"Tables" : 
+	[
+		{
+			"Name" : "Field Types", 
+			"Fields" : [
+				{ "value" : "input_text_control",	"type" : "input_text_control",		"label" : "One line text" },
+			 	{ "value" : "input_password_control",	"type" : "input_password_control",	"label" : "Masked text"},
+				{ "value" : "input_multiline_control",	"type" : "input_multiline_control",	"label" : "Multiline text"},
+				{ "value" : "input_checkbox_control",	"type" : "input_checkbox_control",	"label" : "Check Boxes"},
+				{ "value" : "input_radiobox_control",	"type" : "input_radiobox_control",	"label" : "Radio buttons"},
+				{ "value" : "input_option_control",	"type" : "input_option_control",	"label" : "Options"},
+				{ "value" : "input_upload_control",	"type" : "input_upload_control",	"label" : "Upload File"},
+				{ "value" : "input_hidden_control",	"type" : "input_hidden_control",	"label" : "Hidden field"},
+				{ "value" : "input_button_control",	"type" : "input_button_control",	"label" : "Button"}
+			]
+		}
+	]
+}
+================= Vars end
+!=========== Tables ===========
+--------------------------------- DELETE @{Name}@ TYPE ---------------------------------
+
+	IF OBJECT_ID('@{Schema}@.@{Name}@', 'U') IS NOT NULL DROP TABLE [@{Schema}@].[@{Name}@];
+GO
+
+===========!
+
+!=========== Tables ===========
+--------------------------------- CREATE @{Name}@ TABLE ---------------------------------
+
+	CREATE TABLE [@{Schema}@].[@{Name}@]
+	(
+		!=========== Columns ===========
+		@~Printed.Columns > 0~@~,~@~~@ [@{Name}@] [@{Type}@]@~(typeof(@{Precision}@) !== 'undefined')~@~(@{Precision}@)~@~~@@~(typeof(@{IsKey}@) !== 'undefined' && @{IsKey}@ == true )~@~ IDENTITY(1,1) PRIMARY KEY~@~~@@~(typeof(@{IsKey}@) === 'undefined' || @{IsKey}@ != true )~@~ NULL~@~~@
+		===========!	
+	) ON [PRIMARY];
+GO
+
+--------------------------------- FILL TABLE @{Name}@ ---------------------------------
+	-- Duplicate keys will be ignored
+	--SET IDENTITY_INSERT @{Name}@ ON
+
+	INSERT INTO [@{Schema}@].[@{Name}@]
+	(
+		!=========== Columns ===========
+		@~ (typeof(@{IsKey}@)==='undefined'||@{IsKey}@==false) ~@~@~Printed.Columns > 0~@~,~@~~@[@{Name}@]~@~~@
+		===========!
+	)
+	VALUES
+	(
+		!=========== Columns ===========
+		@~ (typeof(@{IsKey}@)==='undefined'||@{IsKey}@==false) ~@~@~Printed.Columns > 0~@~,~@~~@ CONVERT([@{Type}@]@~(typeof(@{Precision}@) !== 'undefined')~@~(@{Precision}@)~@~~@, @``Generated``@``@~(typeof(@{Referencing_Table}@) !== 'undefined')~@~reference~@~@{Type}@~@``@@~(typeof( @{Style}@) !== 'undefined')~@~, @{Style}@~@~~@)~@~~@	
+		===========!
+	);
+	
+	--SET IDENTITY_INSERT @{Name}@ OFF
+
+GO
+
+===========!

@@ -1,0 +1,291 @@
+================= Vars begin
+
+{
+	"MyAppSpace":"Miap",
+	"MyAppClass":"MyModel",
+	"Translates":
+	{
+		"Generated" :
+		{
+			"form_width" : "100",
+			"form_begin" : "<form>",
+			"form_end"   : "</form>",
+			"table_begin" : "<table>",
+			"table_end"   : "</table>",
+			"my_style"   : "<style>.generic_title{color: red} .label_style{text-align: right; width: 150px; color: blue; background-color: #FFD; border: 1px solid gray }</style>",
+			"closed_div" : "</div>",
+			"open_title" : "<div class='generic_title'>"
+}
+	},
+	"Tables" : 
+	[
+		{
+			"Name" : "Field Types", 
+			"Fields" : [
+				{ "value" : "input_text_control",	"type" : "input_text_control",		"label" : "One line text" },
+				{ "value" : "input_password_control",	"type" : "input_password_control",	"label" : "Masked text"},
+				{ "value" : "input_multiline_control",	"type" : "input_multiline_control",	"label" : "Multiline text"},
+				{ "value" : "input_checkbox_control",	"type" : "input_checkbox_control",	"label" : "Check Boxes"},
+				{ "value" : "input_radiobox_control",	"type" : "input_radiobox_control",	"label" : "Radio buttons"},
+				{ "value" : "input_option_control",	"type" : "input_option_control",	"label" : "Options"},
+				{ "value" : "input_upload_control",	"type" : "input_upload_control",	"label" : "Upload File"},
+				{ "value" : "input_hidden_control",	"type" : "input_hidden_control",	"label" : "Hidden field"},
+				{ "value" : "input_date_control",	"type" : "input_date_control",	"label" : "Date"},
+				{ "value" : "input_button_control",	"type" : "input_button_control",	"label" : "Button"},
+				{ "value" : "input_toggle_control",	"type" : "input_toggle_control",	"label" : "Toggle"},
+				{ "value" : "input_slider_control",	"type" : "input_slider_control",	"label" : "Sidebar"},
+				{ "value" : "input_icon_control",	"type" : "input_icon_control",	"label" : "Icon"},
+				{ "value" : "input_spinner_control",	"type" : "input_spinner_control",	"label" : "Spinner"},
+				{ "value" : "input_progress_control",	"type" : "input_progress_control",	"label" : "Progress"},
+				{ "value" : "input_autocomplete_control",	"type" : "input_autocomplete_control",	"label" : "Autocomplete"},
+				{ "value" : "input_slider_control",	"type" : "input_slider_control",	"label" : "Slider"},
+				{ "value" : "input_dialog_control",	"type" : "input_dialog_control",	"label" : "Dialogue"},
+				{ "value" : "input_tooltip_control",	"type" : "input_tooltip_control",	"label" : "Tooltip"},
+				{ "value" : "input_snackBar_control",	"type" : "input_snackBar_control",	"label" : "SnackBar"},
+				{ "value" : "input_sidenav_control",	"type" : "input_sidenav_control",	"label" : "Sidenav"},
+				{ "value" : "input_list_control",	"type" : "input_list_control",	"label" : "List"},
+				{ "value" : "input_card_control",	"type" : "input_card_control",	"label" : "Card"},
+				{ "value" : "input_tab_control",	"type" : "input_tab_control",	"label" : "Tab"},
+				{ "value" : "input_expansion_control",	"type" : "input_expansion_control",	"label" : "Expansion"},
+				{ "value" : "input_stepper_control",	"type" : "input_stepper_control",	"label" : "Stepper"},
+				{ "value" : "input_button_control",	"type" : "input_button_control",	"label" : "Button"},
+				{ "value" : "input_button_control",	"type" : "input_button_control",	"label" : "Button"}
+			]
+		}
+	]
+} 
+================= Vars end 4446
+!===========Main===========@``Generated``@``Form Begin``@!===========Tables===========!===========Fields===========@``Generated``@``@{type}@``@===========!===========!@``Generated``@``Form End``@===========!
+ 
+!===========Form Begin===========
+<div id="content">
+  <md-card>
+    <h1>Angular 4 with Material 11 Controls</h1>
+      <form class="form" (ngSubmit)="onSubmit(c)" #c="ngForm" >
+===========!
+!===========Form End===========
+</form>
+  </md-card>
+</div>
+===========!
+!===========input_text_control===========
+            <md-form-field class="full-width" name="input_text_control" >
+                <input mdInput id='postalCode' name='postalCode' placeholder="Name" prefix='Pre-' [(ngModel)]="DataContext.@{value}@" required>
+                <md-hint align="end">3-20 characters</md-hint>
+                <md-error>This field is required</md-error>
+            </md-form-field>
+===========!
+!===========input_multiline_control===========
+            <md-form-field class="full-width" name="input_multiline_control">
+              <textarea mdInput placeholder="Address" id="address" mandatory name="address" [(ngModel)]="DataContext.@{value}@" ngModel required>Some address</textarea>
+              <md-hint align="end">3-200 characters</md-hint>
+              <md-error>This field is required</md-error>
+            </md-form-field>
+===========!
+!===========input_password_control===========
+            <md-form-field class="full-width" name="input_password_control">
+              <input mdInput id='postalCode' type='password' name='postalCode' prefix='Pre-' [(ngModel)]="DataContext.@{value}@" required>
+              <md-hint align="end">3-20 characters</md-hint>
+              <md-error>This field is required</md-error>
+            </md-form-field>
+===========!
+!===========input_checkbox_control===========
+            <div>
+              <md-checkbox class="full-width" name="input_checkboxgroup_control" [(ngModel)]="DataContext.@{value}@">Are Ana Mere?</md-checkbox>
+            </div>
+===========!
+!===========input_radiobox_control===========
+            <div>
+              <md-radio-group class="full-width" name="input_radiobox_control" [(ngModel)]="DataContext.@{value}@">
+                <md-radio-button value="Are">Are</md-radio-button>
+                <md-radio-button value="MyName">Ana</md-radio-button>
+                <md-radio-button value="2">Mere</md-radio-button>
+              </md-radio-group>
+            </div>
+===========!
+!===========input_dynamic_radiobox_control===========
+            <div>
+              <md-radio-group class="full-width" name="input_radiobox_control" [(ngModel)]="DataContext.@{value}@">
+                <md-radio-button value="Are">Are</md-radio-button>
+                <md-radio-button value="MyName">Ana</md-radio-button>
+                <md-radio-button value="2">Mere</md-radio-button>
+              </md-radio-group>
+            </div>
+===========!
+!===========input_option_control===========
+            <md-select class="full-width" [(ngModel)]="DataContext.@{value}@" name="input_option_control" placeholder="State" >
+              <md-option value="Are">Are</md-option>
+              <md-option value="MyName">Ana</md-option>
+              <md-option value="2">Mere</md-option>
+            </md-select>
+===========!
+!===========input_dynmic_options_control===========
+            <md-select class="full-width" [(ngModel)]="DataContext.@{value}@" name="input_option_control" placeholder="State" >
+              <md-option *ngFor="let option of DataContext.UserOptions" [value]="option" >
+                {{option}}
+              </md-option>
+            </md-select>
+===========!
+!===========input_date_control===========
+          <md-form-field class="example-full-width">
+              <input mdInput name='input_datepicker_control' min="2016-01-02" max="2016-01-22" [mdDatepicker]="picker" [(ngModel)]="DataContext.@{value}@" placeholder="Choose a date">
+              <md-datepicker-toggle mdSuffix [for]="picker"></md-datepicker-toggle>
+              <md-datepicker #picker></md-datepicker>
+          </md-form-field>
+===========!
+!===========input_upload_control===========
+
+===========!
+!===========input_hidden_control===========
+
+===========!
+!===========input_toggle_control===========
+          <md-slide-toggle name='input_slide_control' [(ngModel)]="DataContext.@{value}@" ngDefaultControl >Slide me!</md-slide-toggle>
+===========!
+!===========input_slider_control===========
+          <md-slider step="4" tickInterval="3"></md-slider>
+===========!
+!===========input_button_control===========
+          <button name='submit' md-raised-button type="submit" [disabled]="c.invalid" [(ngModel)]="DataContext.@{value}@" ngDefaultControl >Submit</button>
+
+          <md-button-toggle name='input_toggle_control' [(ngModel)]="DataContext.@{value}@" ngDefaultControl >Toggle me!</md-button-toggle>
+===========! 
+!===========input_icon_control===========
+          <md-icon>home</md-icon>
+===========! 
+!===========input_spinner_control===========
+          <md-spinner></md-spinner>
+===========! 
+!===========input_progress_control===========
+<md-progress-bar mode="indeterminate"></md-progress-bar>
+===========! 
+!===========input_autocomplete_control===========
+          <md-form-field class="example-full-width">
+              <input type="text" placeholder="Pick one" name='input_autocomplete_control' mdInput aria-label="Number" [(ngModel)]="DataContext.@{value}@" [formControl]="myControl" [mdAutocomplete]="auto">
+              <md-autocomplete #auto="mdAutocomplete">
+                <md-option *ngFor="let option of DataContext.filteredOptions | async" [value]="option">
+                  {{ option }}
+                </md-option>
+              </md-autocomplete>
+          </md-form-field>
+===========! 
+!===========input_slider_control===========
+          <md-form-field class="demo-chip-list">
+            <md-chip-list mdPrefix #chipList>
+              <md-chip *ngFor="let option of DataContext.UserOptions" selectable="true"
+                       removable="true" (remove)="remove(option)">
+                       {{option}}
+                <md-icon mdChipRemove *ngIf="removable">cancel</md-icon>
+              </md-chip>
+            </md-chip-list>
+            <input mdInput placeholder="New option..."
+                   [mdChipInputFor]="chipList"
+                   mdChipInputSeparatorKeyCodes=","
+                   mdChipInputAddOnBlur="true"
+                   (mdChipInputTokenEnd)="add($event)" />
+          </md-form-field>
+===========! 
+!===========input_dialog_control===========
+          <ol>
+            <li>
+              <md-form-field>
+                <input mdInput [(ngModel)]="name" placeholder="What's your name?">
+              </md-form-field>
+            </li>
+            <li>
+              <button md-raised-button (click)="openDialog()">Pick one</button>
+            </li>
+            <li *ngIf="animal">
+              You chose: <i>{{animal}}</i>
+            </li>
+          </ol>
+===========! 
+!===========input_tooltip_control===========
+          <span mdTooltip="Tooltip!">I have a tooltip</span>
+===========! 
+!===========input_snackBar_control===========
+===========! 
+!===========input_sidenav_control===========
+          <md-sidenav-container class="example-container">
+            <md-sidenav #sidenav class="example-sidenav">
+              <div *ngFor="let option of DataContext.UserOptions">
+                {{ option }}
+              </div>             
+            </md-sidenav>          
+            <div class="example-sidenav-content">
+              <button type="button" md-button (click)="sidenav.open()">
+                Open sidenav
+              </button>
+            </div>          
+          </md-sidenav-container>
+===========! 
+!===========input_list_control===========
+<md-selection-list #shoes>
+  <md-list-option *ngFor="let shoe of typesOfShoes">
+    {{shoe}}
+  </md-list-option>
+</md-selection-list>
+
+<p>
+  Options selected: {{shoes.selectedOptions.selected.length}}
+</p>
+===========! 
+!===========input_card_control===========
+<md-card>Simple card</md-card>
+===========! 
+!===========input_tab_control===========
+          <md-tab-group>
+              <md-tab *ngFor="let option of DataContext.UserOptions" [label]='option'>
+                  {{ option }}
+              </md-tab>
+          </md-tab-group>
+===========! 
+!===========input_expansion_control===========
+          <md-expansion-panel>
+            <md-expansion-panel-header>
+              <md-panel-title>
+                Personal data
+              </md-panel-title>
+              <md-panel-description>
+                Type your name and age
+              </md-panel-description>
+            </md-expansion-panel-header>
+            <div *ngFor="let option of DataContext.UserOptions">
+              {{ option }}
+            </div>
+          </md-expansion-panel>
+===========! 
+!===========input_stepper_control===========
+<md-horizontal-stepper linear="false">
+  <md-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template mdStepLabel>Fill out your name</ng-template>
+      <md-form-field>
+        <input mdInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+      </md-form-field>
+      <div>
+        <button md-button mdStepperNext>Next</button>
+      </div>
+    </form>
+  </md-step>
+  <md-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template mdStepLabel>Fill out your address</ng-template>
+      <md-form-field>
+        <input mdInput placeholder="Address" formControlName="secondCtrl" required>
+      </md-form-field>
+      <div>
+        <button md-button mdStepperPrevious>Back</button>
+        <button md-button mdStepperNext>Next</button>
+      </div>
+    </form>
+  </md-step>
+  <md-step>
+    <ng-template mdStepLabel>Done</ng-template>
+    You are now done. 
+    <div>
+      <button md-button mdStepperPrevious>Back</button>
+    </div>
+  </md-step>
+</md-horizontal-stepper>
+===========!  

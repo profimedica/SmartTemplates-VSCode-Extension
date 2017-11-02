@@ -1,0 +1,190 @@
+// Adding a chart to a ionic Page
+
+VARIABLES
+    Bar Chart view : My Chart view
+    canvasName : myCanvas
+    chartVariableName : myChart
+    chartGetterMethodName : getMyChart
+
+File: src\pages\charts\charts-component\charts.html
+
+    *************************************************************
+    # Add the canvas to the view
+    AJP-SECTION Content -->
+    ---------------------------
+    <ion-card>
+        <ion-card-header>
+            <h1>Chart Title</h1>	
+        </ion-card-header>
+        <ion-card-content>
+            <canvas #canvasName></canvas>
+        </ion-card-content>
+    </ion-card>
+    ---------------------------
+
+File: src\pages\charts\charts-component\charts.component.ts
+
+    *************************************************************
+    # Add the child to the controller
+    AJP-SECTION Children -->
+    ---------------------------
+	@ViewChild('canvasName') canvasName;
+	---------------------------
+    
+File: src\pages\charts\charts-component\charts.component.ts
+    *************************************************************
+    # Add the chart variable
+    AJP-SECTION Variables -->
+    ---------------------------
+	chartVariableName: any;
+    ---------------------------
+    
+File: src\pages\charts\charts-component\charts.component.ts
+    *************************************************************
+    # Add the chart variable
+    AJP-SECTION OnViewLoad -->
+    ---------------------------
+	this.chartVariableName = this.chartGetterMethodName();
+    ---------------------------
+    
+File: src\pages\charts\charts-component\charts.component.ts
+    *************************************************************
+    # Add the data to the chart
+    AJP-SECTION Methods -->
+    ---------------------------
+	chartGetterMethodName() {
+		let data = {
+		  labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+		  datasets: [{
+		    label: '# of Votes',
+		    data: [12, 19, 30, 5, 20, 3],
+		    backgroundColor: [
+		      'rgba(10, 99, 132, 0.2)',
+		      'rgba(54, 162, 235, 0.2)',
+		      'rgba(10, 206, 86, 0.2)',
+		      'rgba(75, 192, 192, 0.2)',
+		      'rgba(153, 200, 255, 0.2)',
+		      'rgba(255, 159, 64, 0.2)'
+		    ],
+		    borderColor: [
+		      'rgba(255,99,132,1)',
+		      'rgba(54, 200, 235, 1)',
+		      'rgba(255, 206, 86, 1)',
+		      'rgba(75, 192, 10, 1)',
+		      'rgba(153, 102, 255, 1)',
+		      'rgba(255, 159, 64, 1)'
+		    ],
+		    borderWidth: 1
+		  }]
+		};
+
+		let options = {
+		  scales: {
+		    yAxes: [{
+		      ticks: {
+		        beginAtZero: true
+		      }
+		    }]
+		  }
+		}
+
+		return this.getChart(this.canvasName.nativeElement, "bar", data, options);
+	}
+    ---------------------------
+
+SUPPORT CODE
+
+Support file: src\pages\charts\charts-component\charts.component.ts
+========================================================================================
+========================================================================================
+import { Component, ViewChild } from '@angular/core';
+
+import { NavController } from 'ionic-angular';
+import Chart from 'chart.js';
+
+@Component({
+	selector: 'page-charts',
+	templateUrl: 'charts.html'
+})
+export class ChartsComponent {
+	// AJP-SECTION Children -->
+
+	// AJP-SECTION Variabes -->
+
+	constructor(public navCtrl: NavController) {
+
+	}
+
+	ionViewDidLoad() {
+		// AJP-SECTION OnViewLoad -->
+	}
+
+	getChart(context, chartType, data, options?) {
+		return new Chart(context, {
+		  type: chartType,
+		  data: data,
+		  options: options
+		});
+	}
+
+	// AJP-SECTION Methods -->
+}
+
+========================================================================================
+========================================================================================
+
+
+Support file: src\pages\charts\charts-component\charts.component.ts
+========================================================================================
+========================================================================================
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '../../app/shared/shared.module';
+import { ChartsComponent } from './charts-component/charts.component';
+
+@NgModule({
+  declarations: [
+    ChartsComponent
+  ],
+  imports: [
+  	CommonModule,
+  	SharedModule
+  ],
+  exports: [
+    ChartsComponent
+  ],
+  entryComponents:[
+  	ChartsComponent
+  ]
+})
+export class ChartsModule {}
+========================================================================================
+========================================================================================
+
+Support file: src\pages\charts\charts-component\charts.component.ts
+========================================================================================
+========================================================================================
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '../../app/shared/shared.module';
+import { ChartsComponent } from './charts-component/charts.component';
+
+@NgModule({
+  declarations: [
+    ChartsComponent
+  ],
+  imports: [
+  	CommonModule,
+  	SharedModule
+  ],
+  exports: [
+    ChartsComponent
+  ],
+  entryComponents:[
+  	ChartsComponent
+  ]
+})
+export class ChartsModule {}
+========================================================================================
+========================================================================================
+

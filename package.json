@@ -1,19 +1,191 @@
 {
-  "name": "smart_developer",
-  "version": "1.0.0",
-  "description": "https://github.com/profimedica/Templater/wiki/Ajuro-Template-Processor",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/profimedica/VisualStudioCodeExtension.git"
-  },
-  "author": "Cumpanasu Florin <start_florin@yahoo.com> (aju.ro)",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/profimedica/VisualStudioCodeExtension/issues"
-  },
-  "homepage": "https://github.com/profimedica/VisualStudioCodeExtension#readme"
+	"name": "smarttemplateprocessor",
+	"displayName": "Smart Template Processor",
+	"version": "0.1.1",
+	"publisher": "profimedica",
+	"description": "https://github.com/profimedica/SmartTemplates-VSCode-Extension",
+	"galleryBanner": {
+		"color": "#C80000",
+		"theme": "dark"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/profimedica/SmartTemplates-VSCode-Extension.git"
+	},
+	"author": "Cumpanasu Florin <start_florin@yahoo.com> (aju.ro)",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/profimedica/SmartTemplates-VSCode-Extension/issues"
+	},
+	"homepage": "https://github.com/profimedica/SmartTemplates-VSCode-Extension#readme",
+	"engines": {
+		"vscode": "^1.16.0"
+	},
+	"categories": [
+		"Snippets"
+	],
+	"activationEvents": [
+		"onCommand:extension.SmartTemplateProcessor",
+		"onView:templateManager",
+		"onView:jsonOutline",
+		"*"
+	],
+	"main": "./out/extension",
+	"contributes": {
+		"menus": {
+			"view/title": [
+				{
+					"command": "templateManager.refreshEntry",
+					"when": "view == templateManager",
+					"group": "navigation"
+				},
+				{
+					"command": "templateManager.addEntry",
+					"when": "view == templateManager"
+				}
+			],
+			"view/item/context": [
+				{
+					"command": "templateManager.deleteEntry",
+					"when": "view == templateManager && viewItem == template"
+				}
+			],
+			"editor/title": [
+				{
+					"when": "resourceLangId == markdown",
+					"command": "markdown.showPreview",
+					"alt": "markdown.showPreviewToSide",
+					"group": "navigation"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "templateProcessor.enable",
+				"title": "Parse On Save: Enable"
+			},
+			{
+				"command": "templateProcessor.disable",
+				"title": "Parse On Save: Disable"
+			},
+			{
+				"command": "templateProcessor.toggle",
+				"title": "Parse On Save: Toggle"
+			},
+			{
+				"command": "templateManager.addEntry",
+				"title": "Add"
+			},
+			{
+				"command": "templateManager.deleteEntry",
+				"title": "Delete"
+			},
+			{
+				"command": "templateManager.refreshEntry",
+				"title": "Refresh",
+				"icon": {
+					"light": "resources/light/refresh.svg",
+					"dark": "resources/dark/refresh.svg"
+				}
+			},
+			{
+				"command": "openTemplateFile",
+				"title": "Open Template File"
+			},
+			{
+				"command": "processTemplate",
+				"title": "Process template"
+			},
+			{
+				"command": "extension.SmartTemplateProcessor",
+				"title": "Smart Template Processor"
+			}
+		],
+		"configuration": {
+			"type": "object",
+			"title": "Smart Template Processor configuration",
+			"properties": {
+				"TemplateManagerProvider.templateFilesRootDirectory": {
+					"type": "string",
+					"description": "Root directory for all template files. Ignore the drive letter C:\\ because it will be added internally.",
+					"default": "AJP-Templates"
+				},
+				"templateProcessor.templateFilesExtension": {
+					"type": "string",
+					"description": "Template files extension. Tempates take variables to be procesed into TemplateReady files.",
+					"default": "ajp"
+				},
+				"templateInterpreter.templateReadyFilesExtension": {
+					"type": "string",
+					"description": "TemplateReady files extension. These files instruct the TemplateInterpreter how to inject the code frajments into your project.",
+					"default": "ajpready"
+				},
+				"livePreview.liveUpdateFilesExtension": {
+					"type": "string",
+					"description": "Filetypes separated by space of the file tipes included in Live Update system",
+					"default": "html"
+				},
+				"templateProcessor.on": {
+					"type": "boolean",
+					"description": "Automatically trigger template processor on save",
+					"default": true
+				},
+				"templateProcessor.restart": {
+					"type": "boolean",
+					"description": "Kill the task first if it is already running",
+					"default": true
+				},
+				"templateProcessor.tasks": {
+					"type": "object",
+					"description": "Tasks to associate with file globs, e.g. \"build\": [\"**/*.h\",\"**/*.cpp\"]",
+					"default": {}
+				}
+			}
+		},
+		"views": {
+			"explorer": [
+				{
+					"id": "templateManager",
+					"name": "My Templates"
+				},
+				{
+					"id": "jsonOutline",
+					"name": "Json Outline",
+					"when": "resourceLangId == 'json'"
+				}
+			]
+		}
+	},
+	"devDependencies": {
+		"@types/mocha": "^2.2.42",
+		"@types/node": "^7.0.43",
+		"chai": "^4.1.2",
+		"karma": "^1.7.1",
+		"karma-chai": "^0.1.0",
+		"karma-mocha": "^1.3.0",
+		"karma-phantomjs-launcher": "^1.0.4",
+		"karma-sinon": "^1.0.5",
+		"karma-typescript-preprocessor2": "^1.2.1",
+		"karma-webpack": "^2.0.5",
+		"mocha": "^4.0.1",
+		"phantomjs-prebuilt": "^2.1.15",
+		"sinon": "^4.0.1",
+		"ts-loader": "^3.0.5",
+		"typescript": "^2.5.3",
+		"vscode": "^1.1.5",
+		"webpack": "^3.8.1"
+	},
+	"scripts": {
+		"prepublishOnly": "tsc -p ./",
+		"build": "tsc -p ./",
+		"compile": "tsc ./src --outDir ./out",
+		"prepare": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"postinstall": "node ./node_modules/vscode/bin/install",
+		"test": "npm run compile && node ./node_modules/vscode/bin/test"
+	},
+	"dependencies": {
+		"jsonc-parser": "^0.4.2",
+		"request": "^2.83.0"
+	}
 }

@@ -1,0 +1,157 @@
+// Adding a chart to a ionic Page
+
+VARIABLES
+    Bar Chart view : My Chart view
+    canvasName : myCanvas
+    chartVariableName : myChart
+    chartGetterMethodName : getMyChart
+
+File: RUN-SQL
+
+    *************************************************************
+    # Add the canvas to the view
+    AJP-SECTION Content -->
+    ---------------------------
+    CREATE TABLE [dbo].[Test_Phonebook8882]
+    ( 
+          [Id] [int] IDENTITY(1,1) PRIMARY KEY
+        , [Name] [nvarchar](60) NULL
+        , [Age] [int] NULL
+        , [Phone] [nvarchar](60) NULL
+        , [Description] [nvarchar](300) NULL
+        , [Note] [nvarchar](300) NULL
+        , [City] [nvarchar](60) NULL
+        , [Street] [nvarchar](60) NULL
+        , [URL] [nvarchar](50) NULL
+        , [Prints] [int] NULL
+        , [ActivFrom] [datetime] NULL
+        , [ActivTo] [datetime] NULL
+        , [IsDeliveryAddress] [bit] NULL
+        , [Suspended] [bit] NULL
+            
+    ) ON [PRIMARY]
+    ---------------------------
+
+File: RUN-SQL
+
+    *************************************************************
+    # Add the canvas to the view
+    AJP-SECTION Content -->
+    ---------------------------
+    CREATE TABLE [dbo].[Test_Phonebook8882]
+    ( 
+          [Id] [int] IDENTITY(1,1) PRIMARY KEY
+        , [Name] [nvarchar](60) NULL
+        , [Age] [int] NULL
+        , [Phone] [nvarchar](60) NULL
+        , [Description] [nvarchar](300) NULL
+        , [Note] [nvarchar](300) NULL
+        , [City] [nvarchar](60) NULL
+        , [Street] [nvarchar](60) NULL
+        , [URL] [nvarchar](50) NULL
+        , [Prints] [int] NULL
+        , [ActivFrom] [datetime] NULL
+        , [ActivTo] [datetime] NULL
+        , [IsDeliveryAddress] [bit] NULL
+        , [Suspended] [bit] NULL
+            
+    ) ON [PRIMARY]
+    ---------------------------
+
+
+SUPPORT CODE
+
+Support file: src\pages\charts\charts-component\charts.component.ts
+========================================================================================
+========================================================================================
+import { Component, ViewChild } from '@angular/core';
+
+import { NavController } from 'ionic-angular';
+import Chart from 'chart.js';
+
+@Component({
+	selector: 'page-charts',
+	templateUrl: 'charts.html'
+})
+export class ChartsComponent {
+	// AJP-SECTION Children -->
+
+	// AJP-SECTION Variabes -->
+
+	constructor(public navCtrl: NavController) {
+
+	}
+
+	ionViewDidLoad() {
+		// AJP-SECTION OnViewLoad -->
+	}
+
+	getChart(context, chartType, data, options?) {
+		return new Chart(context, {
+		  type: chartType,
+		  data: data,
+		  options: options
+		});
+	}
+
+	// AJP-SECTION Methods -->
+}
+
+========================================================================================
+========================================================================================
+
+
+Support file: src\pages\charts\charts-component\charts.component.ts
+========================================================================================
+========================================================================================
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '../../app/shared/shared.module';
+import { ChartsComponent } from './charts-component/charts.component';
+
+@NgModule({
+  declarations: [
+    ChartsComponent
+  ],
+  imports: [
+  	CommonModule,
+  	SharedModule
+  ],
+  exports: [
+    ChartsComponent
+  ],
+  entryComponents:[
+  	ChartsComponent
+  ]
+})
+export class ChartsModule {}
+========================================================================================
+========================================================================================
+
+Support file: src\pages\charts\charts-component\charts.component.ts
+========================================================================================
+========================================================================================
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { SharedModule } from '../../app/shared/shared.module';
+import { ChartsComponent } from './charts-component/charts.component';
+
+@NgModule({
+  declarations: [
+    ChartsComponent
+  ],
+  imports: [
+  	CommonModule,
+  	SharedModule
+  ],
+  exports: [
+    ChartsComponent
+  ],
+  entryComponents:[
+  	ChartsComponent
+  ]
+})
+export class ChartsModule {}
+========================================================================================
+========================================================================================
+
